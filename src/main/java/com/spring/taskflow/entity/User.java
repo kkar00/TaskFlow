@@ -14,16 +14,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
     @Column(name = "user_email", nullable = false, length = 100)
     private String userEmail;
+
     @Column(nullable = false)
     private String password;
+
     @Column(name = "user_name", nullable = false, length = 50)
     private String username;
+
     @Column(nullable = false, length = 50)
     private String role;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
     //생성자

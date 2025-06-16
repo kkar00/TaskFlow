@@ -33,7 +33,7 @@ public class Comment { // extends BaseEntity
     private Boolean isDeleted;
     private LocalDateTime deleteAt;
 
-    public Comment(){}
+    public Comment() {}
 
     public Comment(String username, String content){
         this.username = username;

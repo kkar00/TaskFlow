@@ -13,8 +13,8 @@ public class AcitvityLog {
     // 속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "activitylog_id", nullable = false)
+    private Long activitylogId;
 
     @Column(name = "requested_at", nullable = false)
     private LocalDateTime requestedAt;
@@ -41,7 +41,7 @@ public class AcitvityLog {
     private String activityIype;
 
     // 생성자
-    public AcitvityLog () {}
+    public AcitvityLog() {}
 
 
     // 기능

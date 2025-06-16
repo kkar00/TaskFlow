@@ -10,7 +10,6 @@ public class Dashboard {
     // 속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "user_id")
     private Long userId;
 
