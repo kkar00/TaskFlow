@@ -1,4 +1,4 @@
-package com.spring.taskflow.entity;
+package com.spring.taskflow.domain.entity;
 
 import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
