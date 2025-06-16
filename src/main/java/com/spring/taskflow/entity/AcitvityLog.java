@@ -13,7 +13,6 @@ public class AcitvityLog {
     // 속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id", nullable = false)
     private Long id;
 
