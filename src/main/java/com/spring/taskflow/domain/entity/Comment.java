@@ -1,5 +1,6 @@
 package com.spring.taskflow.domain.entity;
 
+import com.spring.taskflow.domain.dto.comments.CommentCreateRequestDto;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -52,11 +53,46 @@ public class Comment {
      */
     public Comment() {}
 
-    public Comment(String username, String content){
-        this.username = username;
-        this.content = content;
+    public Comment(CommentCreateRequestDto requestDto){
+        this.content = requestDto.getContent();
     }
 
 
     // 기능
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public LocalDateTime getDeleteAt() {
+        return deleteAt;
+    }
 }
