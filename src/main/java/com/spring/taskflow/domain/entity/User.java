@@ -1,13 +1,16 @@
 package com.spring.taskflow.domain.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
     //속성
     @Id
@@ -18,33 +21,35 @@ public class User {
     @Column(name = "user_email", nullable = false, length = 100)
     private String userEmail;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "user_name", nullable = false, length = 50)
     private String username;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "role", nullable = false, length = 50)
     private String role;
 
+    @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-    //생성자
 
+
+    //생성자
     /**
      * 기본생성자
      */
-    public User() {
+    public User() {}
 
-    }
+
     //기능
-
     /**
      * 엔티티가 처음 저장되기 직전에 호출
-     * createdAt, updatedAt을 현재UTC시간으로 초기화
+     * createdAt, updatedAt을 현재 UTC 시간으로 초기화
      */
     @PrePersist
     public void onCreate() {
@@ -55,7 +60,7 @@ public class User {
 
     /**
      * 엔티티가 수정되기 직전에 호출
-     * updatedAt을 현재 UTC시간으로 초기화
+     * updatedAt을 현재 UTC 시간으로 초기화
      */
     @PreUpdate
     public void onUpdate() {

@@ -10,7 +10,7 @@ public class Dashboard {
     // 속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @Column(name = "total_task", nullable = false)
@@ -31,7 +31,11 @@ public class Dashboard {
     @Column(name = "done_tasks_ratio", nullable = false)
     private double doneTasksRatio;
 
+
     // 생성자
+    /**
+     * 기본생성자
+     */
     public Dashboard() {}
 
     public Dashboard(Long userId,
@@ -49,4 +53,7 @@ public class Dashboard {
         this.overdueTasks = overdueTasks;
         this.doneTasksRatio = doneTasksRatio;
     }
+
+
+    // 기능
 }
