@@ -8,7 +8,7 @@ import java.time.ZoneOffset;
 
 @Entity
 @Table(name = "users")
-public class Users {
+public class User {
     //속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Users {
     /**
      * 기본생성자
      */
-    public Users() {
+    public User() {
 
     }
     //기능

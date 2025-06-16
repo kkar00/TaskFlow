@@ -8,21 +8,22 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "comments")
 @EntityListeners(AuditingEntityListener.class)
-public class Comments { // extends BaseEntity
+public class Comment { // extends BaseEntity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
     @ManyToOne
     @JoinColumn(name = "task_id")
-    private Tasks tasks;
+    private Task task;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users users;
+    private User user;
 
     @Column(nullable = false, length = 50)
-    private String userName;
+    private String username;
     @Column(nullable = false)
     private String content;
     @CreatedDate
@@ -32,10 +33,10 @@ public class Comments { // extends BaseEntity
     private Boolean isDeleted;
     private LocalDateTime deleteAt;
 
-    public Comments(){}
+    public Comment(){}
 
-    public Comments(String userName, String content){
-        this.userName = userName;
+    public Comment(String username, String content){
+        this.username = username;
         this.content = content;
     }
 }

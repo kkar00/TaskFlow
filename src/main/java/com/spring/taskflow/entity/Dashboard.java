@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name="dashboard")
+@Table(name="dashboards")
 @EntityListeners(AuditingEntityListener.class)
 public class Dashboard {
     // 속성

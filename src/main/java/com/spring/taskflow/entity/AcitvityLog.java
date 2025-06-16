@@ -6,7 +6,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "activityLog")
+@Table(name = "activityLogs")
 
 public class AcitvityLog {
 

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Tasks")
-public class Tasks {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
@@ -25,11 +25,11 @@ public class Tasks {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdBy_id", nullable = true)
-    private Users createdBy_id;
+    private User createdById;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignee_id", nullable = true)
-    private Users assignee_id;
+    private User assigneeId;
 
     @Column (name = "start_date", nullable = true)
     @ColumnDefault("TODO")
