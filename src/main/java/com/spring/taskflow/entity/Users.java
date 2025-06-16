@@ -11,7 +11,7 @@ import java.time.ZoneOffset;
 public class Users {
     //속성
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long userId;
     @Column(name = "user_email", nullable = false, length = 100)
@@ -27,10 +27,11 @@ public class Users {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
     //생성자
+
     /**
      * 기본생성자
      */
-    public Users () {
+    public Users() {
 
     }
     //기능
@@ -40,7 +41,7 @@ public class Users {
      * createdAt, updatedAt을 현재UTC시간으로 초기화
      */
     @PrePersist
-    public void onCreate () {
+    public void onCreate() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         this.createdAt = now;
         this.updatedAt = now;
@@ -51,7 +52,7 @@ public class Users {
      * updatedAt을 현재 UTC시간으로 초기화
      */
     @PreUpdate
-    public void onUpdate () {
+    public void onUpdate() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         this.updatedAt = now;
     }
