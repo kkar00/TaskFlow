@@ -1,19 +1,19 @@
 package com.spring.taskflow.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "activityLog")
-public class AcitvityLog {
-    // 속성
+@Table(name = "activityLogs")
+@EntityListeners(AuditingEntityListener.class)
+public class ActivityLog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "activityLog_id", nullable = false)
+    private Long activityLogId;
 
     @Column(name = "requested_at", nullable = false)
     private LocalDateTime requestedAt;
@@ -37,14 +37,10 @@ public class AcitvityLog {
     private Integer commentId;
 
     @Column(name = "activity_type", nullable = false, length = 50)
-    private String activityIype;
+    private String activityType;
 
-    // 생성자
-    public AcitvityLog () {}
+    // 기본 생성자
+    public ActivityLog() {}
 
-
-    // 기능
-
-
-
+    // 필요 시 getter/setter 또는 생성자 추가
 }
