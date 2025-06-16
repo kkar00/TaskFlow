@@ -67,4 +67,9 @@ public class User {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         this.updatedAt = now;
     }
+
+
+    public Long getUserId() {
+        return userId;
+    }
 }

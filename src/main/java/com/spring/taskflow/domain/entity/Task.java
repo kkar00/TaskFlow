@@ -1,5 +1,7 @@
 package com.spring.taskflow.domain.entity;
 
+import com.spring.taskflow.domain.enumdata.Priority;
+import com.spring.taskflow.domain.enumdata.Status;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Tasks")
+@Table(name = "tasks")
 @EntityListeners(AuditingEntityListener.class)
 public class Task {
     // 속성
@@ -62,20 +64,11 @@ public class Task {
     private LocalDateTime deletedAt;
 
 
-    public enum Priority {
-        LOW, MEDIUM, HIGH
-    }
-    public enum Status {
-        TODO, IN_PROGRESS, DONE
-    }
-
-
     // 생성자
     /**
      * 기본생성자
      */
     public Task() {}
-
 
     // 기능
 }
