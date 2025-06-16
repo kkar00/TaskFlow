@@ -7,9 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "activityLog")
-
 public class AcitvityLog {
-
     // 속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
