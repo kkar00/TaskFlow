@@ -1,4 +1,4 @@
-package com.spring.taskflow.entity;
+package com.spring.taskflow.domain.entity;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "comments")
 @EntityListeners(AuditingEntityListener.class)
-public class Comment { // extends BaseEntity
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
