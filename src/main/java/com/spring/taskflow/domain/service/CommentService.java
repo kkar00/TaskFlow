@@ -70,4 +70,14 @@ public class CommentService {
     /**
      * 댓글 삭제 기능
      */
+    @Transactional
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found"));
+
+        comment.setDeleted(true);
+        comment.setDeletedAt(LocalDateTime.now());
+
+        commentRepository.save(comment);
+    }
 }

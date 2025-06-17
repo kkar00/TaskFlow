@@ -14,12 +14,11 @@ import java.util.List;
 public class CommentController {
     //속성
     private final CommentService commentService;
-    private final CommentRepository commentRepository;
 
     //생성자
-    public CommentController(CommentService commentService, CommentRepository commentRepository) {
+    public CommentController(CommentService commentService) {
         this.commentService = commentService;
-        this.commentRepository = commentRepository;
+
     }
     //기능
     /**
@@ -63,5 +62,9 @@ public class CommentController {
     /**
      * 댓글 삭제 API
      */
-
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteCommentAPI(@PathVariable("commentId") Long commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();
+    }
 }
