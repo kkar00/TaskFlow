@@ -5,6 +5,7 @@ import com.spring.taskflow.domain.entity.Task;
 import com.spring.taskflow.domain.entity.User;
 import com.spring.taskflow.domain.repository.TaskRepository;
 import com.spring.taskflow.domain.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,7 @@ public class TaskService {
     /**
      * Task 작성 기능
      */
+    @Transactional
     public TaskCreateResponseDto<?> createTaskService(Long userId, TaskCreateRequestDto requestDto) {
         User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("로그인 후 이용 가능합니다."));
 
@@ -68,9 +70,24 @@ public class TaskService {
      * Task 단건 조회 기능
      */
     public TaskGetDetailResponseDto getTaskDetialService(Long taskId) {
-        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
         TaskGetDetailResponseDto responseDto = new TaskGetDetailResponseDto(true, "태스크 조회가 완료되었습니다.", new TaskGetDetailDto(foundTask));
         return responseDto;
     }
 
+    /**
+     * Task 수정 기능
+     */
+    @Transactional
+    public TaskUpdateResponseDto updateTaskService(Long taskId, TaskUpdateRequestDto requestDto) {
+        // 태스크 조회
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
+        // 담당자 조회
+        User assignee = userRepository.findById(requestDto.getAssigneeId()).orElseThrow(() -> new RuntimeException("해당 담당자가 존재하지 않습니다"));
+        // 태스크 업데이트
+        foundTask.updateTask(assignee, requestDto);
+        TaskUpdateResponseDto responseDto = new TaskUpdateResponseDto(true, "태스크 수정이 완료되었습니다.", new TaskUpdateDto(foundTask));
+        return responseDto;
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.spring.taskflow.domain.entity;
 
 import com.spring.taskflow.domain.dto.tasks.TaskCreateRequestDto;
+import com.spring.taskflow.domain.dto.tasks.TaskUpdateRequestDto;
 import com.spring.taskflow.domain.enumdata.Priority;
 import com.spring.taskflow.domain.enumdata.Status;
 import jakarta.persistence.*;
@@ -34,11 +35,11 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
-    private User createdBy;
+    private User createdById;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignee_id")
-    private User assignee;
+    private User assigneeId;
 
     @Column (name = "start_date")
     private LocalDateTime startDate;
@@ -80,8 +81,8 @@ public class Task {
         this.title = requestDto.getTitle();
         this.description = requestDto.getDescription();
         this.priority = requestDto.getPriority();
-        this.createdBy = loginUser;
-        this.assignee = assigneeUser;
+        this.createdById = loginUser;
+        this.assigneeId = assigneeUser;
         this.startDate = requestDto.getStartDate();
         this.dueDate = requestDto.getDueDate();
         this.status = requestDto.getStatus();
@@ -109,6 +110,16 @@ public class Task {
         this.updatedAt = now;
     }
 
+    public void updateTask(User assigneeId, TaskUpdateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.description = requestDto.getDescription();
+        this.priority = requestDto.getPriority();
+        this.assigneeId = assigneeId;
+        this.startDate = requestDto.getStartDate();
+        this.dueDate = requestDto.getDueDate();
+        this.status = requestDto.getStatus();
+    }
+
     // 게터
     public Long getTaskId() {
         return taskId;
@@ -127,11 +138,11 @@ public class Task {
     }
 
     public User getCreatedById() {
-        return createdBy;
+        return createdById;
     }
 
     public User getAssigneeId() {
-        return assignee;
+        return assigneeId;
     }
 
     public LocalDateTime getStartDate() {

@@ -55,4 +55,17 @@ public class TaskController {
         ResponseEntity<TaskGetDetailResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
+
+    /**
+     * Task 수정 API
+     */
+    @PatchMapping("/{taskId}")
+    public ResponseEntity<TaskUpdateResponseDto> updateTaskAPI(
+            @PathVariable("taskId") Long taskId,
+            @RequestBody TaskUpdateRequestDto requestDto
+    ) {
+        TaskUpdateResponseDto responseDto = taskService.updateTaskService(taskId, requestDto);
+        ResponseEntity<TaskUpdateResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return response;
+    }
 }

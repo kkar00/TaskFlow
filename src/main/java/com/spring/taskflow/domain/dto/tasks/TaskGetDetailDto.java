@@ -13,8 +13,8 @@ public class TaskGetDetailDto {
     private String title;
     private String description;
     private Priority priority;
-    private Long createdBy;
-    private Long assignee;
+    private Long createdById;
+    private Long assigneeId;
     private LocalDateTime startDate;
     private LocalDateTime dueDate;
     private Status status;
@@ -26,8 +26,8 @@ public class TaskGetDetailDto {
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.priority = task.getPriority();
-        this.createdBy = Optional.ofNullable(task.getCreatedById()).map(User::getUserId).orElse(null);
-        this.assignee = Optional.ofNullable(task.getAssigneeId()).map(User::getUserId).orElse(null);
+        this.createdById = Optional.ofNullable(task.getCreatedById()).map(User::getUserId).orElse(null);
+        this.assigneeId = Optional.ofNullable(task.getAssigneeId()).map(User::getUserId).orElse(null);
         this.startDate = task.getStartDate();
         this.dueDate = task.getDueDate();
         this.status = task.getStatus();
@@ -52,11 +52,11 @@ public class TaskGetDetailDto {
     }
 
     public Long getCreatedBy() {
-        return createdBy;
+        return createdById;
     }
 
     public Long getAssignee() {
-        return assignee;
+        return assigneeId;
     }
 
     public LocalDateTime getStartDate() {

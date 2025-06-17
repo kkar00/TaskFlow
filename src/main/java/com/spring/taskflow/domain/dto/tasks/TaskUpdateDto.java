@@ -6,8 +6,7 @@ import com.spring.taskflow.domain.enumdata.Status;
 
 import java.time.LocalDateTime;
 
-public class TaskCreateDto {
-    // 속성
+public class TaskUpdateDto {
     private Long taskId;
     private String title;
     private String description;
@@ -20,13 +19,11 @@ public class TaskCreateDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // 생성자
-    public TaskCreateDto(Task task) {
+    public TaskUpdateDto(Task task) {
         this.taskId = task.getTaskId();
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.priority = task.getPriority();
-        this.createdById = task.getCreatedById().getUserId();
         this.assigneeId = task.getAssigneeId().getUserId();
         this.startDate = task.getStartDate();
         this.dueDate = task.getDueDate();
@@ -35,8 +32,6 @@ public class TaskCreateDto {
         this.updatedAt = task.getUpdatedAt();
     }
 
-    // 기능
-    // 게터
     public Long getTaskId() {
         return taskId;
     }
@@ -53,11 +48,11 @@ public class TaskCreateDto {
         return priority;
     }
 
-    public Long getCreatedBy() {
+    public Long getCreatedById() {
         return createdById;
     }
 
-    public Long getAssignee() {
+    public Long getAssigneeId() {
         return assigneeId;
     }
 
