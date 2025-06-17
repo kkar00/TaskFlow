@@ -1,6 +1,8 @@
 package com.spring.taskflow.domain.controller;
 
+import com.spring.taskflow.domain.dto.tasks.TaskCreateDto;
 import com.spring.taskflow.domain.dto.tasks.TaskCreateRequestDto;
+import com.spring.taskflow.domain.dto.tasks.TaskCreateResponseDto;
 import com.spring.taskflow.domain.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,9 @@ public class TaskController {
      * Task 생성 API
      */
     @PostMapping
-    public ResponseEntity<?> createTaskAPI(@RequestBody TaskCreateRequestDto requestDto) {
-        ResponseEntity<String> response = new ResponseEntity<>("success", HttpStatus.OK);
+    public ResponseEntity<TaskCreateResponseDto<TaskCreateDto>> createTaskAPI(@RequestBody TaskCreateRequestDto requestDto) {
+        TaskCreateResponseDto<TaskCreateDto> responseDto = taskService.createTaskService(requestDto);
+        ResponseEntity<TaskCreateResponseDto<TaskCreateDto>> response = new ResponseEntity<TaskCreateResponseDto<TaskCreateDto>>(responseDto, HttpStatus.OK);
         return response;
     }
 }

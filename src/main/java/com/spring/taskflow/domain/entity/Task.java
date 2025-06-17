@@ -57,6 +57,7 @@ public class Task {
     private LocalDateTime updatedAt;
 
     @Column (name = "is_deleted", nullable = false)
+    @ColumnDefault("true")
     private boolean isDeleted;
 
     @Column (name = "deleted_at")
@@ -69,5 +70,81 @@ public class Task {
      */
     public Task() {}
 
+    public Task(User assigneeUser , TaskCreateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.description = requestDto.getDescription();
+        this.priority = requestDto.getPriority();
+        this.assigneeId = assigneeUser;
+        this.startDate = requestDto.getStartDate();
+        this.dueDate = requestDto.getDueDate();
+        this.status = requestDto.getStatus();
+    }
+
     // 기능
+    /**
+     * 엔티티가 처음 저장되기 직전에 호출
+     * createdAt, updatedAt을 현재 UTC 시간으로 초기화
+     */
+    @PrePersist
+    public void onCreate() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    /**
+     * 엔티티가 수정되기 직전에 호출
+     * updatedAt을 현재 UTC 시간으로 초기화
+     */
+    @PreUpdate
+    public void onUpdate() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        this.updatedAt = now;
+    }
+
+    // 게터
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public User getCreatedById() {
+        return createdById;
+    }
+
+    public User getAssigneeId() {
+        return assigneeId;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
 }
