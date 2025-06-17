@@ -33,12 +33,12 @@ public class Task {
     private Priority priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "createdBy_id")
-    private User createdById;
+    @JoinColumn(name = "created_by_id")
+    private User createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignee_id")
-    private User assigneeId;
+    private User assignee;
 
     @Column (name = "start_date")
     private LocalDateTime startDate;
@@ -77,7 +77,7 @@ public class Task {
         this.title = requestDto.getTitle();
         this.description = requestDto.getDescription();
         this.priority = requestDto.getPriority();
-        this.assigneeId = assigneeUser;
+        this.assignee = assigneeUser;
         this.startDate = requestDto.getStartDate();
         this.dueDate = requestDto.getDueDate();
         this.status = requestDto.getStatus();
@@ -123,11 +123,11 @@ public class Task {
     }
 
     public User getCreatedById() {
-        return createdById;
+        return createdBy;
     }
 
     public User getAssigneeId() {
-        return assigneeId;
+        return assignee;
     }
 
     public LocalDateTime getStartDate() {
