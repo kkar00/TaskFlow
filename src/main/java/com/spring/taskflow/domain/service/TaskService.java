@@ -24,12 +24,18 @@ public class TaskService {
     }
 
     // 기능
-    public TaskCreateResponseDto<TaskCreateDto> createTaskService(TaskCreateRequestDto requestDto) {
-        User assigneeUser = userRepository.findById(requestDto.getAssigneeId()).orElseThrow(() -> new RuntimeException("담당자를 찾을 수 없습니다."));
-        Task foundTask = new Task(assigneeUser, requestDto);
-        taskRepository.save(foundTask);
-        TaskCreateResponseDto<TaskCreateDto> responseDto = new TaskCreateResponseDto<>(true, "태스크 생성이 완료되었습니다.", new TaskCreateDto(foundTask));
-        return responseDto;
+    public TaskCreateResponseDto<?> createTaskService(TaskCreateRequestDto requestDto) {
+        Optional<User> optionalUser = userRepository.findById(requestDto.getAssigneeId());
+        if (optionalUser.isPresent()) {
+            User assigneeUser = optionalUser.get();
+            Task foundTask = new Task(assigneeUser, requestDto);
+            taskRepository.save(foundTask);
+            TaskCreateResponseDto<TaskCreateDto> responseDto = new TaskCreateResponseDto<>(true, "태스크 생성이 완료되었습니다.", new TaskCreateDto(foundTask));
+            return  responseDto;
+        } else {
+            TaskCreateResponseDto<Object> responseDto = new TaskCreateResponseDto<>(false, "필수 입력값을 확인해주세요.", null);
+            return responseDto;
+        }
     }
 
 }
