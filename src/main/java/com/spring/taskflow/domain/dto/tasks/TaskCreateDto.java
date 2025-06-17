@@ -12,8 +12,8 @@ public class TaskCreateDto {
     private String title;
     private String description;
     private Priority priority;
-    private Long createdById;
-    private Long assigneeId;
+    private Long createdBy;
+    private Long assignee;
     private LocalDateTime startDate;
     private LocalDateTime dueDate;
     private Status status;
@@ -26,7 +26,8 @@ public class TaskCreateDto {
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.priority = task.getPriority();
-        this.assigneeId = task.getAssigneeId().getUserId();
+        this.createdBy = task.getCreatedById().getUserId();
+        this.assignee = task.getAssigneeId().getUserId();
         this.startDate = task.getStartDate();
         this.dueDate = task.getDueDate();
         this.status = task.getStatus();
@@ -52,12 +53,12 @@ public class TaskCreateDto {
         return priority;
     }
 
-    public Long getCreatedById() {
-        return createdById;
+    public Long getCreatedBy() {
+        return createdBy;
     }
 
-    public Long getAssigneeId() {
-        return assigneeId;
+    public Long getAssignee() {
+        return assignee;
     }
 
     public LocalDateTime getStartDate() {

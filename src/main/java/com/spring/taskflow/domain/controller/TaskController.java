@@ -26,7 +26,12 @@ public class TaskController {
      */
     @PostMapping
     public ResponseEntity<TaskCreateResponseDto<?>> createTaskAPI(@RequestBody TaskCreateRequestDto requestDto) {
-        TaskCreateResponseDto<?> responseDto = taskService.createTaskService(requestDto);
+        // 1. 헤더에서 토큰 추출
+
+        // 2. 토큰 검증
+        Long userId = 1L;
+
+        TaskCreateResponseDto<?> responseDto = taskService.createTaskService(userId, requestDto);
         ResponseEntity<TaskCreateResponseDto<?>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }

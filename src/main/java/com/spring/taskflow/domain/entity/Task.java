@@ -73,10 +73,14 @@ public class Task {
      */
     public Task() {}
 
-    public Task(User assigneeUser , TaskCreateRequestDto requestDto) {
+    /**
+     * Task 생성시 사용되는 생성자
+     */
+    public Task(User loginUser , User assigneeUser , TaskCreateRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.description = requestDto.getDescription();
         this.priority = requestDto.getPriority();
+        this.createdBy = loginUser;
         this.assignee = assigneeUser;
         this.startDate = requestDto.getStartDate();
         this.dueDate = requestDto.getDueDate();

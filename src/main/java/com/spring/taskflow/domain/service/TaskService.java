@@ -32,11 +32,14 @@ public class TaskService {
     /**
      * Task 작성 API
      */
-    public TaskCreateResponseDto<?> createTaskService(TaskCreateRequestDto requestDto) {
+    public TaskCreateResponseDto<?> createTaskService(Long userId, TaskCreateRequestDto requestDto) {
+        User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("로그인 후 이용 가능합니다."));
+
+
         Optional<User> optionalUser = userRepository.findById(requestDto.getAssigneeId());
         if (optionalUser.isPresent()) {
             User assigneeUser = optionalUser.get();
-            Task foundTask = new Task(assigneeUser, requestDto);
+            Task foundTask = new Task(loginUser, assigneeUser, requestDto);
             taskRepository.save(foundTask);
             TaskCreateResponseDto<TaskCreateDto> responseDto = new TaskCreateResponseDto<>(true, "태스크 생성이 완료되었습니다.", new TaskCreateDto(foundTask));
             return  responseDto;
