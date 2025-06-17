@@ -2,7 +2,7 @@ package com.spring.taskflow.domain.dto.tasks;
 
 import java.time.LocalDateTime;
 
-public class TaskCreateResponseDto<Data> {
+public class TaskListResponseDto<Data> {
     // 속성
     private boolean success;
     private String message;
@@ -10,7 +10,7 @@ public class TaskCreateResponseDto<Data> {
     private LocalDateTime timestamp;
 
     // 생성자
-    public TaskCreateResponseDto(boolean success, String message, Data date) {
+    public TaskListResponseDto(boolean success, String message, Data date) {
         this.success = success;
         this.message = message;
         this.date = date;
