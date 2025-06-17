@@ -4,16 +4,15 @@ import com.spring.taskflow.domain.entity.Comment;
 
 import java.time.LocalDateTime;
 
-public class CommentCreateResponseDto {
-    //속성
+public class CommentGetResponseDto {
     private Long commentId;
     private Long userId;
     private String username;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    //생성자
-    public CommentCreateResponseDto(Comment comment) {
+
+    public CommentGetResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();
         this.userId = comment.getUser().getUserId();
         this.username = comment.getUser().getUsername();
@@ -21,6 +20,28 @@ public class CommentCreateResponseDto {
         this.createdAt = comment.getCreatedAt();
         this.updatedAt = comment.getUpdatedAt();
     }
-    //기능
 
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }

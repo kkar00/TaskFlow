@@ -2,10 +2,16 @@ package com.spring.taskflow.domain.service;
 
 import com.spring.taskflow.domain.dto.comments.CommentCreateRequestDto;
 import com.spring.taskflow.domain.dto.comments.CommentCreateResponseDto;
+import com.spring.taskflow.domain.dto.comments.CommentGetRequestDto;
+import com.spring.taskflow.domain.dto.comments.CommentGetResponseDto;
 import com.spring.taskflow.domain.entity.Comment;
 import com.spring.taskflow.domain.repository.CommentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -27,5 +33,26 @@ public class CommentService {
         CommentCreateResponseDto responseDto = new CommentCreateResponseDto(saveComment);
         return responseDto;
 
+    }
+    /**
+     * 댓글 조회 기능
+     */
+    public List<CommentGetResponseDto> getComments(CommentGetRequestDto requestDto) {
+        List<Comment> comments = commentRepository.findByTaskIdAndContentContainingOrderByCreatedAtDesc(
+                requestDto.getTaskId(),
+                requestDto.getKeyword()
+        );
+
+        return comments.stream()
+                .map(CommentGetResponseDto::new)
+                .collect(Collectors.toList());
+    }
+    /**
+     * 댓글 단건 조회 기능
+     */
+    public CommentGetResponseDto getCommentById(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("댓글을 찾을 수 없습니다."));
+        return new CommentGetResponseDto(comment);
     }
 }

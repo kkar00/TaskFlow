@@ -41,10 +41,10 @@ public class Comment {
     private LocalDateTime updatedAt;
 
     @Column(name = "is_deleted", nullable = false)
-    private Boolean isDeleted;
+    private Boolean isDeleted=false;
 
     @Column(name = "deleted_at")
-    private LocalDateTime deleteAt;
+    private LocalDateTime deletedAt;
 
 
     // 생성자
@@ -56,7 +56,14 @@ public class Comment {
     public Comment(CommentCreateRequestDto requestDto){
         this.content = requestDto.getContent();
     }
+    public void updateContent(String content) {
+        this.content = content;
+    }
 
+    public void delete() {
+        this.isDeleted = true;
+        this.deletedAt = LocalDateTime.now();
+    }
 
     // 기능
 
@@ -93,6 +100,6 @@ public class Comment {
     }
 
     public LocalDateTime getDeleteAt() {
-        return deleteAt;
+        return deletedAt;
     }
 }
