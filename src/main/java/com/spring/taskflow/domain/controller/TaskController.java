@@ -68,4 +68,14 @@ public class TaskController {
         ResponseEntity<TaskUpdateResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
+
+    /**
+     * Task 삭제 API
+     */
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<TaskDeleteResponseDto> deleteTaskAPI(@PathVariable("taskId") Long taskId) {
+        TaskDeleteResponseDto responseDto = taskService.deleteTaskService(taskId);
+        ResponseEntity<TaskDeleteResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return response;
+    }
 }

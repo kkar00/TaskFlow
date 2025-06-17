@@ -90,4 +90,15 @@ public class TaskService {
         return responseDto;
 
     }
+
+    /**
+     * Task 삭제 기능
+     */
+    public TaskDeleteResponseDto deleteTaskService(Long taskId) {
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
+        taskRepository.delete(foundTask);
+        TaskDeleteResponseDto responseDto = new TaskDeleteResponseDto(true, "태스크 삭제가 완료되었습니다.");
+        return responseDto;
+    }
+
 }
