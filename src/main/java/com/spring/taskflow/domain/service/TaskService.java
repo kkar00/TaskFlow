@@ -30,7 +30,7 @@ public class TaskService {
     // 기능
 
     /**
-     * Task 작성 API
+     * Task 작성 기능
      */
     public TaskCreateResponseDto<?> createTaskService(Long userId, TaskCreateRequestDto requestDto) {
         User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("로그인 후 이용 가능합니다."));
@@ -50,7 +50,7 @@ public class TaskService {
     }
 
     /**
-     * Task 조회 API
+     * Task 조회 기능
      */
     public TaskListResponseDto<Object> getTaskListService(int page , int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -63,4 +63,14 @@ public class TaskService {
         TaskListResponseDto<Object> responseDto = new TaskListResponseDto<>(true, "태스크 조회가 완료되었습니다.", new TaskList(taskListDtoList));
         return responseDto;
     }
+
+    /**
+     * Task 단건 조회 기능
+     */
+    public TaskGetDetailResponseDto getTaskDetialService(Long taskId) {
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
+        TaskGetDetailResponseDto responseDto = new TaskGetDetailResponseDto(true, "태스크 조회가 완료되었습니다.", new TaskGetDetailDto(foundTask));
+        return responseDto;
+    }
+
 }

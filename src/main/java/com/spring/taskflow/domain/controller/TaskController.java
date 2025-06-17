@@ -1,9 +1,6 @@
 package com.spring.taskflow.domain.controller;
 
-import com.spring.taskflow.domain.dto.tasks.TaskCreateDto;
-import com.spring.taskflow.domain.dto.tasks.TaskCreateRequestDto;
-import com.spring.taskflow.domain.dto.tasks.TaskCreateResponseDto;
-import com.spring.taskflow.domain.dto.tasks.TaskListResponseDto;
+import com.spring.taskflow.domain.dto.tasks.*;
 import com.spring.taskflow.domain.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +43,16 @@ public class TaskController {
     ) {
         TaskListResponseDto<Object> responseDto = taskService.getTaskListService(page, size);
         ResponseEntity<TaskListResponseDto<Object>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return response;
+    }
+
+    /**
+     * Task 단건 조회 API
+     */
+    @GetMapping("/{taskId}")
+    public ResponseEntity<TaskGetDetailResponseDto> getTaskDetailAPI(@PathVariable("taskId") Long taskId) {
+        TaskGetDetailResponseDto responseDto = taskService.getTaskDetialService(taskId);
+        ResponseEntity<TaskGetDetailResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
 }
