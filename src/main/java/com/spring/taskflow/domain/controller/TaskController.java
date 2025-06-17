@@ -27,9 +27,9 @@ public class TaskController {
      * Task 생성 API
      */
     @PostMapping
-    public ResponseEntity<TaskCreateResponseDto<TaskCreateDto>> createTaskAPI(@RequestBody TaskCreateRequestDto requestDto) {
-        TaskCreateResponseDto<TaskCreateDto> responseDto = taskService.createTaskService(requestDto);
-        ResponseEntity<TaskCreateResponseDto<TaskCreateDto>> response = new ResponseEntity<TaskCreateResponseDto<TaskCreateDto>>(responseDto, HttpStatus.OK);
+    public ResponseEntity<TaskCreateResponseDto<?>> createTaskAPI(@RequestBody TaskCreateRequestDto requestDto) {
+        TaskCreateResponseDto<?> responseDto = taskService.createTaskService(requestDto);
+        ResponseEntity<TaskCreateResponseDto<?>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
 }
