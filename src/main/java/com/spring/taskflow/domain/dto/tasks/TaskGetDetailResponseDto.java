@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 public class TaskGetDetailResponseDto {
     private boolean seccess;
     private String message;
-    private TaskGetDetailDto date;
+    private TaskGetDetailDto data;
     private LocalDateTime timestamp;
 
-    public TaskGetDetailResponseDto(boolean seccess, String message, TaskGetDetailDto date) {
+    public TaskGetDetailResponseDto(boolean seccess, String message, TaskGetDetailDto data) {
         this.seccess = seccess;
         this.message = message;
-        this.date = date;
+        this.data = data;
         this.timestamp = LocalDateTime.now();
     }
 
@@ -24,7 +24,7 @@ public class TaskGetDetailResponseDto {
     }
 
     public TaskGetDetailDto getDate() {
-        return date;
+        return data;
     }
 
     public LocalDateTime getTimestamp() {
