@@ -1,15 +1,13 @@
 package com.spring.taskflow.domain.service;
 
-import com.spring.taskflow.domain.dto.comments.CommentCreateRequestDto;
-import com.spring.taskflow.domain.dto.comments.CommentCreateResponseDto;
-import com.spring.taskflow.domain.dto.comments.CommentGetRequestDto;
-import com.spring.taskflow.domain.dto.comments.CommentGetResponseDto;
+import com.spring.taskflow.domain.dto.comments.*;
 import com.spring.taskflow.domain.entity.Comment;
 import com.spring.taskflow.domain.repository.CommentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,4 +53,21 @@ public class CommentService {
                 .orElseThrow(() -> new EntityNotFoundException("댓글을 찾을 수 없습니다."));
         return new CommentGetResponseDto(comment);
     }
+    /**
+     * 댓글 수정 기능
+     */
+    @Transactional
+    public CommentUpdateResponseDto updateComment(Long commentId, CommentUpdateRequestDto requestDto) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("댓글을 찾을 수 없습니다."));
+
+        comment.setContent(requestDto.getContent());  // 내용만 수정
+        comment.setUpdatedAt(LocalDateTime.now());    // 수정 시간 갱신
+
+        return new CommentUpdateResponseDto(comment);
+    }
+
+    /**
+     * 댓글 삭제 기능
+     */
 }

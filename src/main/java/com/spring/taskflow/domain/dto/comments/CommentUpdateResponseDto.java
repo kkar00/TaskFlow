@@ -1,0 +1,28 @@
+package com.spring.taskflow.domain.dto.comments;
+
+import com.spring.taskflow.domain.entity.Comment;
+
+import java.time.LocalDateTime;
+
+public class CommentUpdateResponseDto {
+    //속성
+    private Long commentId;
+    private Long userId;
+    private String username;
+    private String content;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    //셍성자
+
+    public CommentUpdateResponseDto(Comment comment) {
+        this.commentId = commentId;
+        this.userId = userId;
+        this.username = username;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    //기능
+
+}

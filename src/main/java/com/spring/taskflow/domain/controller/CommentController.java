@@ -1,10 +1,6 @@
 package com.spring.taskflow.domain.controller;
 
-import com.spring.taskflow.domain.dto.comments.CommentCreateRequestDto;
-import com.spring.taskflow.domain.dto.comments.CommentCreateResponseDto;
-import com.spring.taskflow.domain.dto.comments.CommentGetRequestDto;
-import com.spring.taskflow.domain.dto.comments.CommentGetResponseDto;
-import com.spring.taskflow.domain.entity.Comment;
+import com.spring.taskflow.domain.dto.comments.*;
 import com.spring.taskflow.domain.repository.CommentRepository;
 import com.spring.taskflow.domain.service.CommentService;
 import org.springframework.http.HttpStatus;
@@ -12,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/comments")
@@ -40,8 +35,8 @@ public class CommentController {
     /**
      * 댓글 조회 API
      */
-    @GetMapping("/comments")
-    public List<CommentGetResponseDto> getComments(CommentGetRequestDto requestDto) {
+    @GetMapping
+    public List<CommentGetResponseDto> getCommentsAPI(CommentGetRequestDto requestDto) {
         return commentService.getComments(requestDto);
     }
 
@@ -49,8 +44,24 @@ public class CommentController {
      *
      * 댓글 단건 조회 API
      */
-    @GetMapping("/comments/{commentId}")
-    public CommentGetResponseDto getComment(@PathVariable Long commentId) {
+    @GetMapping("/{commentId}")
+    public CommentGetResponseDto getCommentAPI(@PathVariable("commentId") Long commentId) {
         return commentService.getCommentById(commentId);
     }
+
+    /**
+     * 댓글 수정 API
+     */
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<CommentUpdateResponseDto> updateCommentAPI(
+            @PathVariable("commentId") Long commentId,
+            @RequestBody CommentUpdateRequestDto requestDto) {
+        CommentUpdateResponseDto responseDto = commentService.updateComment(commentId, requestDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    /**
+     * 댓글 삭제 API
+     */
+
 }

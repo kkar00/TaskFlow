@@ -102,4 +102,12 @@ public class Comment {
     public LocalDateTime getDeleteAt() {
         return deletedAt;
     }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
