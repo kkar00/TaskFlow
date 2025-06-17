@@ -6,14 +6,14 @@ public class TaskListResponseDto<Data> {
     // 속성
     private boolean success;
     private String message;
-    private Data date;
+    private Data data;
     private LocalDateTime timestamp;
 
     // 생성자
-    public TaskListResponseDto(boolean success, String message, Data date) {
+    public TaskListResponseDto(boolean success, String message, Data data) {
         this.success = success;
         this.message = message;
-        this.date = date;
+        this.data = data;
         this.timestamp = LocalDateTime.now();
     }
 
@@ -28,7 +28,7 @@ public class TaskListResponseDto<Data> {
     }
 
     public Data getDate() {
-        return date;
+        return data;
     }
 
     public LocalDateTime getTimestamp() {
