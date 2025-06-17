@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Tasks")
+@Table(name = "tasks")
 @EntityListeners(AuditingEntityListener.class)
 public class Task {
     // 속성
@@ -37,7 +37,6 @@ public class Task {
     private User assigneeId;
 
     @Column (name = "start_date")
-    @ColumnDefault("TODO")
     private LocalDateTime startDate;
 
     @Column (name = "due_date")
@@ -45,6 +44,7 @@ public class Task {
 
     @Column (name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
+    @ColumnDefault("TODO")
     private Status status;
 
     @CreatedDate
