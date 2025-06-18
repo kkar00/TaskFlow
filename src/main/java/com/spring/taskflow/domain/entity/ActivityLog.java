@@ -49,4 +49,6 @@ public class ActivityLog {
 
     // 기능
 
+
+
 }
