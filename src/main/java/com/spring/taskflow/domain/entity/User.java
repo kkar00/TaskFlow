@@ -18,14 +18,14 @@ public class User {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "user_email", nullable = false, length = 100)
+    @Column(name = "user_email", nullable = false, length = 100, unique = true)
     private String userEmail;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "user_name", nullable = false, length = 50)
-    private String username;
+    @Column(name = "user_name", nullable = false, length = 50, unique = true)
+    private String userName;
 
     @Column(name = "role", nullable = false, length = 50)
     private String role;
@@ -45,6 +45,12 @@ public class User {
      */
     public User() {}
 
+    public User(String userEmail, String password, String username, String role) {
+        this.userEmail = userEmail;
+        this.password = password;
+        this.userName = username;
+        this.role = role;
+    }
 
     //기능
     /**
@@ -66,5 +72,31 @@ public class User {
     public void onUpdate() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         this.updatedAt = now;
+    }
+
+
+    // getter
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

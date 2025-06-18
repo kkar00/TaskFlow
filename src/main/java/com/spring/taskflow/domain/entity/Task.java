@@ -44,8 +44,7 @@ public class Task {
 
     @Column (name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("TODO")
-    private Status status;
+    private Status status = Status.TODO;
 
     @CreatedDate
     @Column (name = "created_at", nullable = false)
