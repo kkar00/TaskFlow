@@ -60,7 +60,7 @@ public class Task {
     private LocalDateTime updatedAt;
 
     @Column (name = "is_deleted", nullable = false)
-    @ColumnDefault("true")
+    @ColumnDefault("false")
     private boolean isDeleted;
 
     @Column (name = "deleted_at")
