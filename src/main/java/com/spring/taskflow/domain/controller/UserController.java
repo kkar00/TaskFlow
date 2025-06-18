@@ -1,29 +1,56 @@
 package com.spring.taskflow.domain.controller;
 
+import com.spring.taskflow.common.ApiResponse;
+import com.spring.taskflow.domain.dto.user.login.LoginRequestDto;
+import com.spring.taskflow.domain.dto.user.login.LoginResponseDto;
+import com.spring.taskflow.domain.dto.user.signup.SignUpRequestDto;
+import com.spring.taskflow.domain.dto.user.signup.SignUpResponseDto;
+import com.spring.taskflow.domain.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import com.spring.taskflow.domain.dto.user.UserDeleteErrorResponseDto;
 import com.spring.taskflow.domain.dto.user.UserDeleteResponseDto;
 import com.spring.taskflow.domain.service.JwtService;
-import com.spring.taskflow.domain.service.UserService;
 import com.spring.taskflow.domain.dto.user.UserDeleteRequestDto;
 import io.jsonwebtoken.JwtException;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
-    // 속성
     private final UserService userService;
     private final JwtService jwtService;
 
-    // 생성자
     public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
     }
 
+    // 회원가입
+    @PostMapping("/signup")
+    public ResponseEntity<ApiResponse<SignUpResponseDto>> signup(@Validated @RequestBody SignUpRequestDto request) {
+
+        SignUpResponseDto signUpResponseDto = userService.signup(request);
+        ApiResponse response = new ApiResponse(true, "회원가입이 완료되었습니다.", signUpResponseDto);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<LoginResponseDto>> login(@RequestBody LoginRequestDto request) {
+
+        LoginResponseDto loginResponseDto = userService.login(request);
+        ApiResponse response = new ApiResponse(true, "로그인이 완료되었습니다.", loginResponseDto);
+
+        // 3. 토큰 반환
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        // TODO @Validated 추가
+    }
+
+    // 회원 탈퇴
     @PostMapping("/api/users/delete")
     public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String authHeader, @RequestBody UserDeleteRequestDto requestDto) {
         try {

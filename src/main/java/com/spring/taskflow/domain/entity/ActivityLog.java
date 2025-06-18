@@ -39,6 +39,7 @@ public class ActivityLog {
     @Column(name = "activity_type", nullable = false, length = 50)
     private String activityType;
 
+
     // 생성자
     /**
      * 기본생성자

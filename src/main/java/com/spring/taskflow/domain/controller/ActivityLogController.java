@@ -36,8 +36,7 @@ public class ActivityLogController {
     ) {
         try {
             List<ActivityLog> logs = activityLogService.getFilteredActivityLogs(taskId, activityType, startDate, endDate, sortBy, sortOrder);
-            ApiResponse<List<ActivityLog>> response = new ApiResponse<>(true, "활동로그 조회가 완료되었습니다.", logs, LocalDateTime.now()
-            );
+            ApiResponse<List<?>> response = new ApiResponse<>(true, "활동로그 조회가 완료되었습니다.", logs);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             ActivityLogErrorResponseDto errorResponseDto = new ActivityLogErrorResponseDto(400, e.getMessage());
