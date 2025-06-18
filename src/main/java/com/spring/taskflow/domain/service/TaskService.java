@@ -81,12 +81,13 @@ public class TaskService {
     }
 
     /**
-     * Task 검색 기능
+     * Task 제목 검색 기능
      */
-    public ApiResponse<TaskSearchListDto> getSearchTaskService(TaskSearchListRequestDto requestDto) {
-        List<Task> searchTaskList = taskRepository.findByTitleContaining(requestDto.getSearch());
+    public ApiResponse<TaskSearchListDto> getTaskSearchTitleService(int page , int size, TaskSearchListRequestDto requestDto) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Task> searchTaskList = taskRepository.findByTitleContaining(requestDto.getSearch(), pageable);
 
-        List<TaskSearchListResponseDto> responseDtoList = searchTaskList.stream()
+        List<TaskSearchListResponseDto> responseDtoList = searchTaskList.getContent().stream()
                 .map(TaskSearchListResponseDto::new)
                 .collect(Collectors.toList());
 

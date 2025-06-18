@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository<Task, Long> {
     Page<Task> findAllByIsDeletedFalse(Pageable pageable);
     Optional<Task> findByTaskIdAndIsDeletedFalse(Long taskId);
-    List<Task> findByTitleContaining(String keyword);
+    Page<Task> findByTitleContaining(String keyword, Pageable pageable);
 }
