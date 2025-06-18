@@ -14,7 +14,7 @@ public class SignUpResponseDto {
     public SignUpResponseDto(User user) {
         this.userId = user.getUserId();
         this.userEmail = user.getUserEmail();
-        this.userName = user.getUsername();
+        this.userName = user.getUserName();
         this.role = user.getRole();
         this.createdAt = user.getCreatedAt();
     }

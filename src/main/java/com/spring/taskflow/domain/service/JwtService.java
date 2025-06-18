@@ -30,7 +30,7 @@ public class JwtService {
         // 2. 데이터 준비
         String subject = user.getUserId().toString(); // 사용자 준비
         Date now = new Date();                // 현재시간
-        Date expiration = new Date(now.getTime() + 1000 * 60); // 만료시간 설정 1분뒤
+        Date expiration = new Date(now.getTime() + 1000 * 60 * 60); // 만료시간 설정 60분뒤
 
         // 3. 토큰 만들기
         String jwt = Jwts.builder()

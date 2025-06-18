@@ -32,7 +32,7 @@ public class UserService {
         if(userRepository.existsByUserEmail(email)) {
             throw new UserException("이미 존재하는 이메일입니다.");
         }
-        if(userRepository.existsByUsername(userName)) {
+        if(userRepository.existsByUserName(userName)) {
             throw new UserException("이미 존재하는 사용자명입니다.");
         }
         // 4. 존재하지 않으면
@@ -50,11 +50,11 @@ public class UserService {
 
         // 1. request에서 password, userName 받기 (비밀번호는 인코드)
         String password = request.getPassword();
-        String userName = request.getUserName();
+        String userEmail = request.getUserEmail();
         // 2. 존재하는 회원인지 아이디, 비밀번호 확인
         // 3. 로그인 실패 - 예외처리
-        User loginUser = userRepository.findByUsername(userName).orElseThrow(() -> new UserException("잘못된 사용자명 입니다."));
-        if(passwordEncoder.matches(password, loginUser.getPassword())) { // encodedPassword.equals(loginUser.getPassword())
+        User loginUser = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new UserException("잘못된 이메일 입니다."));
+        if(passwordEncoder.matches(password, loginUser.getPassword())) {
             // 4. 로그인 성공
             // 5. 토큰 발급, 반환
             String token = jwtService.createJwtToken(loginUser);

@@ -25,7 +25,7 @@ public class User {
     private String password;
 
     @Column(name = "user_name", nullable = false, length = 50, unique = true)
-    private String username;
+    private String userName;
 
     @Column(name = "role", nullable = false, length = 50)
     private String role;
@@ -48,7 +48,7 @@ public class User {
     public User(String userEmail, String password, String username, String role) {
         this.userEmail = userEmail;
         this.password = password;
-        this.username = username;
+        this.userName = username;
         this.role = role;
     }
 
@@ -88,8 +88,8 @@ public class User {
         return password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     public String getRole() {

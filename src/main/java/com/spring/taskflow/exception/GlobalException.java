@@ -16,33 +16,25 @@ public class GlobalException {
 
     // request body가 null일 때 예외 처리
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
 
-        String response = "body는 null일 수 없습니다.";
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(response);
+        ApiResponse<Void> apiResponse = new ApiResponse<>(false, "body는 null일 수 없습니다.", null);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
     // Validation 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 
-        Map<String, String> response = new LinkedHashMap<>();
-        ex.getBindingResult()
-                .getFieldErrors()
-                .forEach(error -> response.put(error.getField(), error.getDefaultMessage()));
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(response);
+        ApiResponse<Void> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
     // UserException 예외 처리
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ApiResponse<Void>> handleUserException(UserException ex) {
 
-        ApiResponse apiResponse = new ApiResponse(false, ex.getMessage(), null);
+        ApiResponse<Void> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
