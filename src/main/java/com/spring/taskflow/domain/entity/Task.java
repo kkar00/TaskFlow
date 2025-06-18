@@ -6,8 +6,8 @@ import org.hibernate.annotations.ColumnDefault;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Tasks")
-public class Tasks {
+@Table(name = "tasks")
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
@@ -25,14 +25,13 @@ public class Tasks {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdBy_id", nullable = true)
-    private Users createdBy_id;
+    private User createdBy_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignee_id", nullable = true)
-    private Users assignee_id;
+    private User assignee_id;
 
     @Column (name = "start_date", nullable = true)
-    @ColumnDefault("TODO")
     private LocalDateTime startDate;
 
     @Column (name = "due_date", nullable = true)
@@ -40,7 +39,7 @@ public class Tasks {
 
     @Column (name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.TODO;
 
     @Column (name = "created_at", nullable = false)
     private LocalDateTime createdAt;

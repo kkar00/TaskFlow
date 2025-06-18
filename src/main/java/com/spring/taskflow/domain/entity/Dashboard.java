@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name="dashboard")
+@Table(name="dashboards")
 @EntityListeners(AuditingEntityListener.class)
 public class Dashboard {
     // 속성
@@ -49,5 +49,33 @@ public class Dashboard {
         this.todoTasks = todoTasks;
         this.overdueTasks = overdueTasks;
         this.doneTasksRatio = doneTasksRatio;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public int getTotalTask() {
+        return totalTask;
+    }
+
+    public int getDoneTasks() {
+        return doneTasks;
+    }
+
+    public int getInProgressTasks() {
+        return inProgressTasks;
+    }
+
+    public int getTodoTasks() {
+        return todoTasks;
+    }
+
+    public int getOverdueTasks() {
+        return overdueTasks;
+    }
+
+    public double getDoneTasksRatio() {
+        return doneTasksRatio;
     }
 }
