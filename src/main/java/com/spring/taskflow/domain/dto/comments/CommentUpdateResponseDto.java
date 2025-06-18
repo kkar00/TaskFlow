@@ -8,7 +8,7 @@ public class CommentUpdateResponseDto {
     //속성
     private Long commentId;
     private Long userId;
-    private String username;
+    private String userName;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -17,7 +17,7 @@ public class CommentUpdateResponseDto {
     public CommentUpdateResponseDto(Comment comment) {
         this.commentId = commentId;
         this.userId = userId;
-        this.username = username;
+        this.userName = userName;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -33,8 +33,8 @@ public class CommentUpdateResponseDto {
         return userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     public String getContent() {

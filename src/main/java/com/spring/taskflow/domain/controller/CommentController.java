@@ -1,8 +1,11 @@
 package com.spring.taskflow.domain.controller;
 
 import com.spring.taskflow.common.ApiResponse;
+import com.spring.taskflow.config.JwtService;
 import com.spring.taskflow.domain.dto.comments.*;
 import com.spring.taskflow.domain.service.CommentService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,22 +16,42 @@ import java.util.List;
 public class CommentController {
     //속성
     private final CommentService commentService;
+    private final JwtService jwtService;
 
     //생성자
-    public CommentController(CommentService commentService) {
+    public CommentController(CommentService commentService, JwtService jwtService) {
         this.commentService = commentService;
-
+        this.jwtService = jwtService;
     }
     //기능
     /**
      * 댓글 생성 API
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<CommentCreateResponseDto>> CreateCommentAPI(@RequestBody CommentCreateRequestDto requestDto) {
-        CommentCreateResponseDto responseDto = commentService.createCommentService(requestDto);
-        ApiResponse<CommentCreateResponseDto> apiResponse = new ApiResponse<>(
+    public ResponseEntity<ApiResponse<CommentCreateResponseDto>> CreateCommentAPI(
+            @RequestBody CommentCreateRequestDto requestDto,
+            HttpServletRequest request) {
+        try{
+            // Authorization 헤더에서 Bearer 제거 후 토큰 추출
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(new ApiResponse<>(false, "로그인한 사용자가 아닙니다.", null));
+            }
+
+            String token = authHeader.substring(7); // "Bearer " 제거
+            Long userId = jwtService.verifyToken(token);
+            CommentCreateResponseDto responseDto = commentService.createCommentService(requestDto, userId);
+            ApiResponse<CommentCreateResponseDto> apiResponse = new ApiResponse<>(
                 true, "댓글 생성이 완료되었습니다.", responseDto);
-        return ResponseEntity.ok(apiResponse);
+            return ResponseEntity.ok(apiResponse);}
+        catch (RuntimeException e) {
+                ApiResponse<CommentCreateResponseDto> errorResponse = new ApiResponse<>(
+                        false, "로그인 사용자가 아닙니다.", null);
+
+                return ResponseEntity.badRequest().body(errorResponse);
+            }
     }
 
     /**
@@ -68,21 +91,54 @@ public class CommentController {
     @PatchMapping("/{commentId}")
     public ResponseEntity<ApiResponse<CommentUpdateResponseDto>> updateCommentAPI(
             @PathVariable("commentId") Long commentId,
-            @RequestBody CommentUpdateRequestDto requestDto) {
-        CommentUpdateResponseDto responseDto = commentService.updateComment(commentId, requestDto);
-        ApiResponse<CommentUpdateResponseDto> apiResponse = new ApiResponse<>(true, "댓글 수정이 완료되었습니다.", responseDto);
-        return ResponseEntity.ok(apiResponse);
+            @RequestBody CommentUpdateRequestDto requestDto,
+            HttpServletRequest request) {
+        try{
+            // Authorization 헤더에서 Bearer 제거 후 토큰 추출
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(new ApiResponse<>(false, "로그인한 사용자가 아닙니다.", null));
+            }
+
+            String token = authHeader.substring(7); // "Bearer " 제거
+            Long userId = jwtService.verifyToken(token);
+            CommentUpdateResponseDto responseDto = commentService.updateComment(commentId, requestDto);
+            ApiResponse<CommentUpdateResponseDto> apiResponse = new ApiResponse<>(true, "댓글 수정이 완료되었습니다.", responseDto);
+            return ResponseEntity.ok(apiResponse);}
+        catch (RuntimeException e) {
+            ApiResponse<CommentUpdateResponseDto> errorResponse = new ApiResponse<>(
+                    false, "로그인 사용자가 아닙니다.", null);
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     /**
      * 댓글 삭제 API
      */
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<ApiResponse<Void>> deleteCommentAPI(@PathVariable("commentId") Long commentId) {
-        commentService.deleteComment(commentId);
-        ApiResponse<Void> apiResponse = new ApiResponse<>(
-                true, "댓글 삭제가 완료되었습니다.", null
-        );
-        return ResponseEntity.ok(apiResponse);
+    public ResponseEntity<ApiResponse<Void>> deleteCommentAPI(
+            @PathVariable("commentId") Long commentId,
+            HttpServletRequest request) {
+        try{
+            // Authorization 헤더에서 Bearer 제거 후 토큰 추출
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(new ApiResponse<>(false, "로그인한 사용자가 아닙니다.", null));
+            }
+            String token = authHeader.substring(7); // "Bearer " 제거
+            Long userId = jwtService.verifyToken(token);
+            commentService.deleteComment(commentId);
+            ApiResponse<Void> apiResponse = new ApiResponse<>(
+                true, "댓글 삭제가 완료되었습니다.", null);
+            return ResponseEntity.ok(apiResponse);}
+        catch (RuntimeException e) {
+            ApiResponse<Void> errorResponse = new ApiResponse<>(
+                    false, "로그인 사용자가 아닙니다.", null);
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 }

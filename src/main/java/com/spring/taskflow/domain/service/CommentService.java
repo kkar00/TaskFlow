@@ -33,8 +33,8 @@ public class CommentService {
      * 댓글 생성 기능
      */
     @Transactional
-    public CommentCreateResponseDto createCommentService(CommentCreateRequestDto requestDto) {
-        User user = userRepository.findById(requestDto.getUserId())
+    public CommentCreateResponseDto createCommentService(CommentCreateRequestDto requestDto,Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
         Task task = taskRepository.findById(requestDto.getTaskId())
                 .orElseThrow(() -> new RuntimeException("작업(Task)을 찾을 수 없습니다."));
@@ -42,7 +42,7 @@ public class CommentService {
         foundComment.setContent(requestDto.getContent());
         foundComment.setUser(user);
         foundComment.setTask(task);
-        foundComment.setUsername(user.getUsername());
+        foundComment.setUserName(user.getUserName());
         Comment saveComment = commentRepository.save(foundComment);
         CommentCreateResponseDto responseDto = new CommentCreateResponseDto(saveComment);
         return responseDto;

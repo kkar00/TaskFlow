@@ -5,8 +5,6 @@ public class CommentCreateRequestDto {
     private String content;
     private Long taskId;
     //로그인 기능 없을때 사용
-    private Long userId;
-    //명시적으로 기본값 false세팅
     private boolean isDeleted;
     //생성자
     public CommentCreateRequestDto() {
@@ -22,9 +20,6 @@ public class CommentCreateRequestDto {
         return taskId;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
 
     public Boolean isDeleted() {
         return isDeleted;

@@ -27,7 +27,7 @@ public class Comment {
     private User user;
 
     @Column(name = "user_name", nullable = false, length = 50)
-    private String username;
+    private String userName;
 
     @Column(name = "content", nullable = false)
     private String content;
@@ -124,7 +124,7 @@ public class Comment {
         this.task = task;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

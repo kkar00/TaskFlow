@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class CommentGetResponseDto {
     private Long commentId;
     private Long userId;
-    private String username;
+    private String userName;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -15,7 +15,7 @@ public class CommentGetResponseDto {
     public CommentGetResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();
         this.userId = comment.getUser().getUserId();
-        this.username = comment.getUser().getUsername();
+        this.userName = comment.getUser().getUserName();
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.updatedAt = comment.getUpdatedAt();
@@ -29,8 +29,8 @@ public class CommentGetResponseDto {
         return userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     public String getContent() {

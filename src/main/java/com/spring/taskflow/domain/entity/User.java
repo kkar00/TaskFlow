@@ -25,7 +25,7 @@ public class User {
     private String password;
 
     @Column(name = "user_name", nullable = false, length = 50)
-    private String username;
+    private String userName;
 
     @Column(name = "role", nullable = false, length = 50)
     private String role;
@@ -72,11 +72,11 @@ public class User {
         return userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String userName) {
+        this.userName = userName;
     }
 }

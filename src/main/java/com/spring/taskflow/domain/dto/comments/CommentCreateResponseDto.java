@@ -9,7 +9,7 @@ public class CommentCreateResponseDto {
     private Long commentId;
     private Long userId;
     private Long taskId;
-    private String username;
+    private String userName;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -18,7 +18,7 @@ public class CommentCreateResponseDto {
         this.commentId = comment.getCommentId();
         this.userId = comment.getUser().getUserId();
         this.taskId = comment.getTask().getTaskId();
-        this.username = comment.getUser().getUsername();
+        this.userName = comment.getUser().getUserName();
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.updatedAt = comment.getUpdatedAt();
@@ -49,7 +49,7 @@ public class CommentCreateResponseDto {
         return updatedAt;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 }
