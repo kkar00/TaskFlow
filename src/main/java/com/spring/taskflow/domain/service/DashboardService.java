@@ -65,7 +65,6 @@ public class DashboardService {
             // 조회 권한 없을시 예외처리
             throw new IllegalAccessException();
         }
-
     }
 }
 

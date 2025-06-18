@@ -38,7 +38,7 @@ public class DashboardController {
     /**
      * 유저 대시보드 조회 API
      */
-    @GetMapping()
+    @GetMapping("/dashboards/{id}")
     public ResponseEntity<ApiResponse<List<DashboardUserDto>>> getDashboardUserAPI(){
         try {
             ApiResponse<List<DashboardUserDto>> responseDashboardUserDto = dashboardService.getDashboardUserService();
