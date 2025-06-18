@@ -49,8 +49,7 @@ public class Task {
 
     @Column (name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("TODO")
-    private Status status;
+    private Status status = Status.TODO;
 
     @CreatedDate
     @Column (name = "created_at", nullable = false)
@@ -110,10 +109,14 @@ public class Task {
         this.updatedAt = now;
     }
 
-    public void updateTask(User assigneeId, TaskUpdateRequestDto requestDto) {
+    /**
+     * Task 수정 API 에서 사용하는 업데이트 기능
+     */
+    public void updateTask(User createdById, User assigneeId, TaskUpdateRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.description = requestDto.getDescription();
         this.priority = requestDto.getPriority();
+        this.createdById = createdById;
         this.assigneeId = assigneeId;
         this.startDate = requestDto.getStartDate();
         this.dueDate = requestDto.getDueDate();

@@ -1,5 +1,6 @@
 package com.spring.taskflow.domain.service;
 
+import com.spring.taskflow.common.ApiResponse;
 import com.spring.taskflow.domain.dto.tasks.*;
 import com.spring.taskflow.domain.entity.Task;
 import com.spring.taskflow.domain.entity.User;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,71 +34,82 @@ public class TaskService {
      * Task 작성 기능
      */
     @Transactional
-    public TaskCreateResponseDto<?> createTaskService(Long userId, TaskCreateRequestDto requestDto) {
-        User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("로그인 후 이용 가능합니다."));
+    public ApiResponse<TaskCreateResponseDto> createTaskService(Long userId, TaskCreateRequestDto requestDto) {
+        // 토큰으로 접속한 유저 확인
+        User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("회원 정보가 일치하지 않습니다."));
 
-
-        Optional<User> optionalUser = userRepository.findById(requestDto.getAssigneeId());
-        if (optionalUser.isPresent()) {
-            User assigneeUser = optionalUser.get();
-            Task foundTask = new Task(loginUser, assigneeUser, requestDto);
-            taskRepository.save(foundTask);
-            TaskCreateResponseDto<TaskCreateDto> responseDto = new TaskCreateResponseDto<>(true, "태스크 생성이 완료되었습니다.", new TaskCreateDto(foundTask));
-            return  responseDto;
-        } else {
-            TaskCreateResponseDto<Object> responseDto = new TaskCreateResponseDto<>(false, "필수 입력값을 확인해주세요.", null);
-            return responseDto;
+        // assignee null 확인
+        Long assigneeID = requestDto.getAssigneeId();
+        User assigneeUser = null;
+        if (assigneeID != null) {
+            assigneeUser = userRepository.findById(assigneeID).orElseThrow(() -> new IllegalArgumentException("담장자를 확인해주세요."));
         }
+
+        // Task 저장
+        Task foundTask = new Task(loginUser, assigneeUser, requestDto);
+        taskRepository.save(foundTask);
+
+        // ResponseDto 생성 및 반환
+        ApiResponse<TaskCreateResponseDto> responseDto = new ApiResponse<>(true, "태스크 생성이 완료되었습니다.", new TaskCreateResponseDto(foundTask));
+        return responseDto;
     }
 
     /**
      * Task 조회 기능
      */
-    public TaskListResponseDto<Object> getTaskListService(int page , int size) {
+    public ApiResponse<TaskListDto> getTaskListService(int page , int size) {
+        // 페이지 설정 ( createdAt 기준 내림차순 )
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
         Page<Task> taskPage = taskRepository.findAll(pageable);
 
-        List<TaskListDto> taskListDtoList = taskPage.getContent().stream()
-                .map(TaskListDto::new)
+        List<TaskListResponseDto> taskListDtoListResponse = taskPage.getContent().stream()
+                .map(TaskListResponseDto::new)
                 .collect(Collectors.toList());
 
-        TaskListResponseDto<Object> responseDto = new TaskListResponseDto<>(true, "태스크 조회가 완료되었습니다.", new TaskList(taskListDtoList));
-        return responseDto;
+        ApiResponse<TaskListDto> response = new ApiResponse<>(true, "태스크 조회가 완료되었습니다.", new TaskListDto(taskListDtoListResponse));
+        return response;
     }
 
     /**
      * Task 단건 조회 기능
      */
-    public TaskGetDetailResponseDto getTaskDetialService(Long taskId) {
+    public ApiResponse<TaskGetDetailResponseDto> getTaskDetialService(Long taskId) {
         Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
-        TaskGetDetailResponseDto responseDto = new TaskGetDetailResponseDto(true, "태스크 조회가 완료되었습니다.", new TaskGetDetailDto(foundTask));
-        return responseDto;
+        ApiResponse<TaskGetDetailResponseDto> response = new ApiResponse<>(true, "태스크 조회가 완료되었습니다.", new TaskGetDetailResponseDto(foundTask));
+        return response;
     }
 
     /**
      * Task 수정 기능
      */
-    @Transactional
-    public TaskUpdateResponseDto updateTaskService(Long taskId, TaskUpdateRequestDto requestDto) {
+    @Transactional()
+    public ApiResponse<TaskUpdateResponseDto> updateTaskService(Long userId, Long taskId, TaskUpdateRequestDto requestDto) {
+        // 토큰으로 접속한 유저 검증
+        User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("회원 정보가 일치하지 않습니다."));
         // 태스크 조회
         Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
         // 담당자 조회
         User assignee = userRepository.findById(requestDto.getAssigneeId()).orElseThrow(() -> new RuntimeException("해당 담당자가 존재하지 않습니다"));
         // 태스크 업데이트
-        foundTask.updateTask(assignee, requestDto);
-        TaskUpdateResponseDto responseDto = new TaskUpdateResponseDto(true, "태스크 수정이 완료되었습니다.", new TaskUpdateDto(foundTask));
-        return responseDto;
-
+        foundTask.updateTask(loginUser, assignee, requestDto);
+        ApiResponse<TaskUpdateResponseDto> response = new ApiResponse<>(true, "태스크 수정이 완료되었습니다.", new TaskUpdateResponseDto(foundTask));
+        return response;
     }
 
     /**
      * Task 삭제 기능
      */
-    public TaskDeleteResponseDto deleteTaskService(Long taskId) {
+    @Transactional
+    public ApiResponse<Object> deleteTaskService(Long userId, Long taskId) {
+        // 토큰으로 접속한 유저 검증
+        User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("회원 정보가 일치하지 않습니다."));
+        // 태스크 조회
         Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
+        // 태스크 삭제
         taskRepository.delete(foundTask);
-        TaskDeleteResponseDto responseDto = new TaskDeleteResponseDto(true, "태스크 삭제가 완료되었습니다.");
-        return responseDto;
+        ApiResponse<Object> response = new ApiResponse<>(true, "태스크 삭제가 완료되었습니다.",null);
+        return response;
     }
 
 }

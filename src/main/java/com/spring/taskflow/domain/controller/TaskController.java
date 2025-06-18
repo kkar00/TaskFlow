@@ -1,7 +1,9 @@
 package com.spring.taskflow.domain.controller;
 
+import com.spring.taskflow.common.ApiResponse;
 import com.spring.taskflow.domain.dto.tasks.*;
 import com.spring.taskflow.domain.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +24,14 @@ public class TaskController {
      * Task 생성 API
      */
     @PostMapping
-    public ResponseEntity<TaskCreateResponseDto<?>> createTaskAPI(@RequestBody TaskCreateRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<TaskCreateResponseDto>> createTaskAPI(@Valid @RequestBody TaskCreateRequestDto requestDto) {
         // 1. 헤더에서 토큰 추출
 
         // 2. 토큰 검증
         Long userId = 1L;
 
-        TaskCreateResponseDto<?> responseDto = taskService.createTaskService(userId, requestDto);
-        ResponseEntity<TaskCreateResponseDto<?>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        ApiResponse<TaskCreateResponseDto> responseDto = taskService.createTaskService(userId, requestDto);
+        ResponseEntity<ApiResponse<TaskCreateResponseDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
 
@@ -37,12 +39,12 @@ public class TaskController {
      * Task 조회 API
      */
     @GetMapping
-    public ResponseEntity<TaskListResponseDto<Object>> getTaskLiskAPI(
+    public ResponseEntity<ApiResponse<TaskListDto>> getTaskLiskAPI(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        TaskListResponseDto<Object> responseDto = taskService.getTaskListService(page, size);
-        ResponseEntity<TaskListResponseDto<Object>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        ApiResponse<TaskListDto> responseDto = taskService.getTaskListService(page, size);
+        ResponseEntity<ApiResponse<TaskListDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
 
@@ -50,9 +52,9 @@ public class TaskController {
      * Task 단건 조회 API
      */
     @GetMapping("/{taskId}")
-    public ResponseEntity<TaskGetDetailResponseDto> getTaskDetailAPI(@PathVariable("taskId") Long taskId) {
-        TaskGetDetailResponseDto responseDto = taskService.getTaskDetialService(taskId);
-        ResponseEntity<TaskGetDetailResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<TaskGetDetailResponseDto>> getTaskDetailAPI(@PathVariable("taskId") Long taskId) {
+        ApiResponse<TaskGetDetailResponseDto> responseDto = taskService.getTaskDetialService(taskId);
+        ResponseEntity<ApiResponse<TaskGetDetailResponseDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
 
@@ -60,12 +62,17 @@ public class TaskController {
      * Task 수정 API
      */
     @PatchMapping("/{taskId}")
-    public ResponseEntity<TaskUpdateResponseDto> updateTaskAPI(
+    public ResponseEntity<ApiResponse<TaskUpdateResponseDto>> updateTaskAPI(
             @PathVariable("taskId") Long taskId,
             @RequestBody TaskUpdateRequestDto requestDto
     ) {
-        TaskUpdateResponseDto responseDto = taskService.updateTaskService(taskId, requestDto);
-        ResponseEntity<TaskUpdateResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        // 1. 헤더에서 토큰 추출
+
+        // 2. 토큰 검증
+        Long userId = 1L;
+
+        ApiResponse<TaskUpdateResponseDto> responseDto = taskService.updateTaskService(userId, taskId, requestDto);
+        ResponseEntity<ApiResponse<TaskUpdateResponseDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
 
@@ -73,9 +80,14 @@ public class TaskController {
      * Task 삭제 API
      */
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<TaskDeleteResponseDto> deleteTaskAPI(@PathVariable("taskId") Long taskId) {
-        TaskDeleteResponseDto responseDto = taskService.deleteTaskService(taskId);
-        ResponseEntity<TaskDeleteResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<Object>> deleteTaskAPI(@PathVariable("taskId") Long taskId) {
+        // 1. 헤더에서 토큰 추출
+
+        // 2. 토큰 검증
+        Long userId = 1L;
+
+        ApiResponse<Object> responseDto = taskService.deleteTaskService(userId, taskId);
+        ResponseEntity<ApiResponse<Object>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
 }
