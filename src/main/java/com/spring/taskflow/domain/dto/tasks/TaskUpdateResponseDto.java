@@ -6,7 +6,7 @@ import com.spring.taskflow.domain.enumdata.Status;
 
 import java.time.LocalDateTime;
 
-public class TaskListResponseDto {
+public class TaskUpdateResponseDto {
     private Long taskId;
     private String title;
     private String description;
@@ -19,7 +19,7 @@ public class TaskListResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public TaskListResponseDto(Task task) {
+    public TaskUpdateResponseDto(Task task) {
         this.taskId = task.getTaskId();
         this.title = task.getTitle();
         this.description = task.getDescription();

@@ -1,5 +1,7 @@
 package com.spring.taskflow.domain.entity;
 
+import com.spring.taskflow.domain.dto.tasks.TaskCreateRequestDto;
+import com.spring.taskflow.domain.dto.tasks.TaskUpdateRequestDto;
 import com.spring.taskflow.domain.enumdata.Priority;
 import com.spring.taskflow.domain.enumdata.Status;
 import jakarta.persistence.*;
@@ -9,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Entity
 @Table(name = "tasks")
@@ -31,7 +34,7 @@ public class Task {
     private Priority priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "createdBy_id")
+    @JoinColumn(name = "created_by_id")
     private User createdById;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -70,10 +73,14 @@ public class Task {
      */
     public Task() {}
 
-    public Task(User assigneeUser , TaskCreateRequestDto requestDto) {
+    /**
+     * Task 생성시 사용되는 생성자
+     */
+    public Task(User loginUser , User assigneeUser , TaskCreateRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.description = requestDto.getDescription();
         this.priority = requestDto.getPriority();
+        this.createdById = loginUser;
         this.assigneeId = assigneeUser;
         this.startDate = requestDto.getStartDate();
         this.dueDate = requestDto.getDueDate();
@@ -100,6 +107,20 @@ public class Task {
     public void onUpdate() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         this.updatedAt = now;
+    }
+
+    /**
+     * Task 수정 API 에서 사용하는 업데이트 기능
+     */
+    public void updateTask(User createdById, User assigneeId, TaskUpdateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.description = requestDto.getDescription();
+        this.priority = requestDto.getPriority();
+        this.createdById = createdById;
+        this.assigneeId = assigneeId;
+        this.startDate = requestDto.getStartDate();
+        this.dueDate = requestDto.getDueDate();
+        this.status = requestDto.getStatus();
     }
 
     // 게터
