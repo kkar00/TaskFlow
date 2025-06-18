@@ -107,7 +107,7 @@ public class TaskService {
         // 태스크 조회
         Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
         // 태스크 삭제
-        taskRepository.delete(foundTask);
+        foundTask.deleteTask();
         ApiResponse<Object> response = new ApiResponse<>(true, "태스크 삭제가 완료되었습니다.",null);
         return response;
     }

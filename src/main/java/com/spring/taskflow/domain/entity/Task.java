@@ -123,6 +123,14 @@ public class Task {
         this.status = requestDto.getStatus();
     }
 
+    /**
+     * Task 삭제 API 에서 사용하는 기능
+     */
+    public void deleteTask() {
+        this.isDeleted = true;
+        this.deletedAt = LocalDateTime.now();
+    }
+
     // 게터
     public Long getTaskId() {
         return taskId;
