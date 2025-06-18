@@ -3,21 +3,21 @@ package com.spring.taskflow.common;
 import java.time.LocalDateTime;
 
 public class ApiResponse<T> {
-    //속성
-    private boolean success;
-    private String message;
-    private T data;
-    private LocalDateTime timestamp;
-    //생성자
-    public ApiResponse(boolean success, String message, T data) {
+    private final Boolean success;
+    private final String message;
+    private final T data;
+    private final LocalDateTime timestamp;
+
+    public ApiResponse(Boolean success, String message, T data) {
         this.success = success;
         this.message = message;
         this.data = data;
         this.timestamp = LocalDateTime.now();
     }
-    //기능
 
-    public boolean isSuccess() {
+    // getter
+
+    public Boolean getSuccess() {
         return success;
     }
 
@@ -25,11 +25,11 @@ public class ApiResponse<T> {
         return message;
     }
 
-    public T getData() {
-        return data;
-    }
-
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+
+    public T getData() {
+        return data;
     }
 }
