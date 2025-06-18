@@ -32,12 +32,11 @@ public class CommentController {
             @RequestBody CommentCreateRequestDto requestDto,
             HttpServletRequest request) {
         try{
-            // Authorization 헤더에서 Bearer 제거 후 토큰 추출
             String authHeader = request.getHeader("Authorization");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return ResponseEntity
                         .status(HttpStatus.UNAUTHORIZED)
-                        .body(new ApiResponse<>(false, "로그인한 사용자가 아닙니다.", null));
+                        .body(new ApiResponse<>(false, "토큰이 존재하지 않습니다.", null));
             }
 
             String token = authHeader.substring(7); // "Bearer " 제거
@@ -48,7 +47,7 @@ public class CommentController {
             return ResponseEntity.ok(apiResponse);}
         catch (RuntimeException e) {
                 ApiResponse<CommentCreateResponseDto> errorResponse = new ApiResponse<>(
-                        false, "로그인 사용자가 아닙니다.", null);
+                        false, "로그인이 필요합니다.", null);
 
                 return ResponseEntity.badRequest().body(errorResponse);
             }
@@ -94,12 +93,12 @@ public class CommentController {
             @RequestBody CommentUpdateRequestDto requestDto,
             HttpServletRequest request) {
         try{
-            // Authorization 헤더에서 Bearer 제거 후 토큰 추출
+
             String authHeader = request.getHeader("Authorization");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return ResponseEntity
                         .status(HttpStatus.UNAUTHORIZED)
-                        .body(new ApiResponse<>(false, "로그인한 사용자가 아닙니다.", null));
+                        .body(new ApiResponse<>(false, "토큰이 존재하지 않습니다.", null));
             }
 
             String token = authHeader.substring(7); // "Bearer " 제거
@@ -109,7 +108,7 @@ public class CommentController {
             return ResponseEntity.ok(apiResponse);}
         catch (RuntimeException e) {
             ApiResponse<CommentUpdateResponseDto> errorResponse = new ApiResponse<>(
-                    false, "로그인 사용자가 아닙니다.", null);
+                    false, "로그인이 필요합니다.", null);
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -122,12 +121,12 @@ public class CommentController {
             @PathVariable("commentId") Long commentId,
             HttpServletRequest request) {
         try{
-            // Authorization 헤더에서 Bearer 제거 후 토큰 추출
+
             String authHeader = request.getHeader("Authorization");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return ResponseEntity
                         .status(HttpStatus.UNAUTHORIZED)
-                        .body(new ApiResponse<>(false, "로그인한 사용자가 아닙니다.", null));
+                        .body(new ApiResponse<>(false, "토큰이 존재하지 않습니다.", null));
             }
             String token = authHeader.substring(7); // "Bearer " 제거
             Long userId = jwtService.verifyToken(token);
@@ -137,7 +136,7 @@ public class CommentController {
             return ResponseEntity.ok(apiResponse);}
         catch (RuntimeException e) {
             ApiResponse<Void> errorResponse = new ApiResponse<>(
-                    false, "로그인 사용자가 아닙니다.", null);
+                    false, "로그인이 필요합니다.", null);
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
