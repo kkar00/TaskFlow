@@ -31,7 +31,6 @@ public class Dashboard {
     @Column(name = "done_tasks_ratio", nullable = false)
     private double doneTasksRatio;
 
-
     // 생성자
     /**
      * 기본생성자
@@ -54,6 +53,32 @@ public class Dashboard {
         this.doneTasksRatio = doneTasksRatio;
     }
 
-
     // 기능
+    public Long getUserId() {
+        return userId;
+    }
+
+    public int getTotalTask() {
+        return totalTask;
+    }
+
+    public int getDoneTasks() {
+        return doneTasks;
+    }
+
+    public int getInProgressTasks() {
+        return inProgressTasks;
+    }
+
+    public int getTodoTasks() {
+        return todoTasks;
+    }
+
+    public int getOverdueTasks() {
+        return overdueTasks;
+    }
+
+    public double getDoneTasksRatio() {
+        return doneTasksRatio;
+    }
 }
