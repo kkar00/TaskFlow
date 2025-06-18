@@ -2,6 +2,7 @@ package com.spring.taskflow.domain.controller;
 
 import com.spring.taskflow.domain.common.ApiResponse;
 import com.spring.taskflow.domain.dto.dashboard.DashboardDto;
+import com.spring.taskflow.domain.dto.dashboard.DashboardUserDto;
 import com.spring.taskflow.domain.service.DashboardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,4 +35,19 @@ public class DashboardController {
         return response;
     }
 
+    /**
+     * 유저 대시보드 조회 API
+     */
+    @GetMapping()
+    public ResponseEntity<ApiResponse<List<DashboardUserDto>>> getDashboardUserAPI(){
+        try {
+            ApiResponse<List<DashboardUserDto>> responseDashboardUserDto = dashboardService.getDashboardUserService();
+            ResponseEntity<ApiResponse<List<DashboardUserDto>>> response = new ResponseEntity<>(responseDashboardUserDto, HttpStatus.OK);
+            return response;
+        } catch (IllegalAccessException e) {
+            return new ResponseEntity<>(
+                    new ApiResponse<>(false,"조회 권한이 없습니다.", null),
+                    HttpStatus.FORBIDDEN);
+        }
+    }
 }
