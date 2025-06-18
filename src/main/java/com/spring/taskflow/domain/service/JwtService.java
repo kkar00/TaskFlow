@@ -1,5 +1,6 @@
 package com.spring.taskflow.domain.service;
 
+import com.spring.taskflow.domain.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -21,13 +22,13 @@ public class JwtService {
     /**
      * 토큰 만들기
      */
-    public String createJwt(Long memberId) {
+    public String createJwtToken(User user) {
 
         // 1. 서명 만들기
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes());
 
         // 2. 데이터 준비
-        String subject = memberId.toString(); // 사용자 준비
+        String subject = user.getUserId().toString(); // 사용자 준비
         Date now = new Date();                // 현재시간
         Date expiration = new Date(now.getTime() + 1000 * 60); // 만료시간 설정 1분뒤
 
@@ -35,10 +36,7 @@ public class JwtService {
         String jwt = Jwts.builder()
                 .subject(subject)  // --payload 시작--
                 .issuedAt(now)
-                .claim("role", "admin") // 커스텀 하게 활용하는 방법
-                .claim("key1", "value1")
-                .claim("key2", "value2")
-                .claim("key3", "value3")
+                .claim("role", user.getRole().toString())
                 .expiration(expiration)
                 .signWith(secretKey)  // --payload 끝--
                 .compact();
@@ -64,9 +62,9 @@ public class JwtService {
         // String value1  = (String) claims.get("key1"); // 커스텀하게 설정한 요소 추출
 
         // 3. 타입 변환
-        long memberId = Long.parseLong(subject);
+        long userId = Long.parseLong(subject);
 
         // 4. 반환
-        return memberId;
+        return userId;
     }
 }

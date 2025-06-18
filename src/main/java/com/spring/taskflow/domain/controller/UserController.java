@@ -6,7 +6,6 @@ import com.spring.taskflow.domain.dto.user.login.LoginResponseDto;
 import com.spring.taskflow.domain.dto.user.signup.SignUpRequestDto;
 import com.spring.taskflow.domain.dto.user.signup.SignUpResponseDto;
 import com.spring.taskflow.domain.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,9 +25,9 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<SignUpResponseDto>> signUp(@Validated @RequestBody SignUpRequestDto request) {
+    public ResponseEntity<ApiResponse<SignUpResponseDto>> signup(@Validated @RequestBody SignUpRequestDto request) {
 
-        SignUpResponseDto signUpResponseDto = userService.signUp(request);
+        SignUpResponseDto signUpResponseDto = userService.signup(request);
         ApiResponse response = new ApiResponse(true, "회원가입이 완료되었습니다.", signUpResponseDto);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -36,7 +35,14 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<LoginResponseDto>> login(@RequestBody LoginRequestDto requestDto) {
-        throw new EntityNotFoundException();
+    public ResponseEntity<ApiResponse<LoginResponseDto>> login(@RequestBody LoginRequestDto request) {
+
+        LoginResponseDto loginResponseDto = userService.login(request);
+        ApiResponse response = new ApiResponse(true, "로그인이 완료되었습니다.", loginResponseDto);
+
+        // 3. 토큰 반환
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        // TODO @Validated 추가
     }
 }

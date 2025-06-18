@@ -1,26 +1,20 @@
 package com.spring.taskflow.domain.dto.user.login;
 
 public class LoginRequestDto {
-    private final Long userId;
-    private final String userEmail;
     private final String password;
+    private final String userName;
 
-    public LoginRequestDto(Long userId, String userEmail, String password) {
-        this.userId = userId;
-        this.userEmail = userEmail;
+    public LoginRequestDto(String password, String userName) {
         this.password = password;
+        this.userName = userName;
     }
 
     // Getter
-    public Long getUserId() {
-        return userId;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
     public String getPassword() {
         return password;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 }
