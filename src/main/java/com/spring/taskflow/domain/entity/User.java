@@ -18,7 +18,7 @@ public class User {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "user_email", nullable = false, length = 100)
+    @Column(name = "user_email", nullable = false, length = 100, unique = true)
     private String userEmail;
 
     @Column(name = "password", nullable = false)
