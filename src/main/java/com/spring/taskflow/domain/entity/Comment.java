@@ -79,9 +79,6 @@ public class Comment {
         return user;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
     public String getContent() {
         return content;

@@ -23,4 +23,7 @@ public class CommentCreateResponseDto {
     }
     //기능
 
+    public String getUsername() {
+        return username;
+    }
 }

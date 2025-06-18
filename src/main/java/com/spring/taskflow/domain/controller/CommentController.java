@@ -1,5 +1,6 @@
 package com.spring.taskflow.domain.controller;
 
+import com.spring.taskflow.config.ApiResponse;
 import com.spring.taskflow.domain.dto.comments.*;
 import com.spring.taskflow.domain.repository.CommentRepository;
 import com.spring.taskflow.domain.service.CommentService;
@@ -25,18 +26,22 @@ public class CommentController {
      * 댓글 생성 API
      */
     @PostMapping
-    public ResponseEntity<CommentCreateResponseDto> CreateCommentAPI(@RequestBody CommentCreateRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<CommentCreateResponseDto>> CreateCommentAPI(@RequestBody CommentCreateRequestDto requestDto) {
         CommentCreateResponseDto responseDto = commentService.createCommentService(requestDto);
-        ResponseEntity<CommentCreateResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
-        return response;
+        ApiResponse<CommentCreateResponseDto> apiResponse = new ApiResponse<>(
+                true, "댓글 생성이 완료되었습니다.", responseDto);
+        return ResponseEntity.ok(apiResponse);
     }
 
     /**
      * 댓글 조회 API
      */
     @GetMapping
-    public List<CommentGetResponseDto> getCommentsAPI(CommentGetRequestDto requestDto) {
-        return commentService.getComments(requestDto);
+    public ResponseEntity<ApiResponse<List<CommentGetResponseDto>>> getCommentsAPI(CommentGetRequestDto requestDto) {
+        List<CommentGetResponseDto> responseDtoList = commentService.getComments(requestDto);
+        ApiResponse<List<CommentGetResponseDto>> apiResponse = new ApiResponse<>(
+                true, "댓글 조회가 완료되었습니다.", responseDtoList);
+        return ResponseEntity.ok(apiResponse);
     }
 
     /**
@@ -44,27 +49,35 @@ public class CommentController {
      * 댓글 단건 조회 API
      */
     @GetMapping("/{commentId}")
-    public CommentGetResponseDto getCommentAPI(@PathVariable("commentId") Long commentId) {
-        return commentService.getCommentById(commentId);
+    public ResponseEntity<ApiResponse<CommentGetResponseDto>> getCommentAPI(@PathVariable("commentId") Long commentId) {
+        CommentGetResponseDto responseDto = commentService.getCommentById(commentId);
+        ApiResponse<CommentGetResponseDto> apiResponse = new ApiResponse<>(
+                true, "댓글 단건 조회가 완료되었습니다.", responseDto
+        );
+        return  ResponseEntity.ok(apiResponse);
     }
 
     /**
      * 댓글 수정 API
      */
     @PatchMapping("/{commentId}")
-    public ResponseEntity<CommentUpdateResponseDto> updateCommentAPI(
+    public ResponseEntity<ApiResponse<CommentUpdateResponseDto>> updateCommentAPI(
             @PathVariable("commentId") Long commentId,
             @RequestBody CommentUpdateRequestDto requestDto) {
         CommentUpdateResponseDto responseDto = commentService.updateComment(commentId, requestDto);
-        return ResponseEntity.ok(responseDto);
+        ApiResponse<CommentUpdateResponseDto> apiResponse = new ApiResponse<>(true, "댓글 수정이 완료되었습니다.", responseDto);
+        return ResponseEntity.ok(apiResponse);
     }
 
     /**
      * 댓글 삭제 API
      */
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteCommentAPI(@PathVariable("commentId") Long commentId) {
+    public ResponseEntity<ApiResponse<Void>> deleteCommentAPI(@PathVariable("commentId") Long commentId) {
         commentService.deleteComment(commentId);
-        return ResponseEntity.noContent().build();
+        ApiResponse<Void> apiResponse = new ApiResponse<>(
+                true, "댓글 삭제가 완료되었습니다.", null
+        );
+        return ResponseEntity.ok(apiResponse);
     }
 }
