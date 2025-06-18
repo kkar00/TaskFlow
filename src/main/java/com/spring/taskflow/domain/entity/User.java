@@ -67,4 +67,14 @@ public class User {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         this.updatedAt = now;
     }
+
+    // 기능
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
 }
