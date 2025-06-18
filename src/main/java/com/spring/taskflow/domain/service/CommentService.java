@@ -30,7 +30,6 @@ public class CommentService {
         Comment saveComment = commentRepository.save(foundComment);
         CommentCreateResponseDto responseDto = new CommentCreateResponseDto(saveComment);
         return responseDto;
-
     }
     /**
      * 댓글 조회 기능
@@ -73,10 +72,10 @@ public class CommentService {
     @Transactional
     public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("Comment not found"));
+                .orElseThrow(() -> new EntityNotFoundException("댓글을 찾을 수 없습니다."));
 
-        comment.setDeleted(true);
-        comment.setDeletedAt(LocalDateTime.now());
+        comment.setDeleted(true); //false를 true로 수정
+        comment.setDeletedAt(LocalDateTime.now()); //삭제 시간 갱신
 
         commentRepository.save(comment);
     }

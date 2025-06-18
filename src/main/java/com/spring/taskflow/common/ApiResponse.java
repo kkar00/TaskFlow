@@ -1,4 +1,4 @@
-package com.spring.taskflow.config;
+package com.spring.taskflow.common;
 
 import java.time.LocalDateTime;
 

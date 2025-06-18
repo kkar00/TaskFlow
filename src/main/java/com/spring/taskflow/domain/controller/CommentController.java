@@ -1,10 +1,8 @@
 package com.spring.taskflow.domain.controller;
 
-import com.spring.taskflow.config.ApiResponse;
+import com.spring.taskflow.common.ApiResponse;
 import com.spring.taskflow.domain.dto.comments.*;
-import com.spring.taskflow.domain.repository.CommentRepository;
 import com.spring.taskflow.domain.service.CommentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
