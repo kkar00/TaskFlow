@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,7 +76,7 @@ public class TaskService {
      * Task 단건 조회 기능
      */
     public ApiResponse<TaskGetDetailResponseDto> getTaskDetialService(Long taskId) {
-        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
+        Task foundTask = taskRepository.findByTaskIdAndIsDeletedFalse(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않거나 삭제된 상태입니다."));
         ApiResponse<TaskGetDetailResponseDto> response = new ApiResponse<>(true, "태스크 조회가 완료되었습니다.", new TaskGetDetailResponseDto(foundTask));
         return response;
     }
