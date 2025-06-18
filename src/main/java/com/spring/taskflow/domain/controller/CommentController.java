@@ -1,9 +1,9 @@
 package com.spring.taskflow.domain.controller;
 
 import com.spring.taskflow.common.ApiResponse;
-import com.spring.taskflow.config.JwtService;
 import com.spring.taskflow.domain.dto.comments.*;
 import com.spring.taskflow.domain.service.CommentService;
+import com.spring.taskflow.domain.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
