@@ -61,7 +61,7 @@ public class TaskService {
         // 페이지 설정 ( createdAt 기준 내림차순 )
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        Page<Task> taskPage = taskRepository.findAll(pageable);
+        Page<Task> taskPage = taskRepository.findAllByIsDeletedFalse(pageable);
 
         List<TaskListResponseDto> taskListDtoListResponse = taskPage.getContent().stream()
                 .map(TaskListResponseDto::new)
