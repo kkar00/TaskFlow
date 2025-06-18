@@ -1,6 +1,6 @@
 package com.spring.taskflow.domain.controller;
 
-import com.spring.taskflow.domain.common.ApiResponse;
+import com.spring.taskflow.common.ApiResponse;
 import com.spring.taskflow.domain.dto.dashboard.DashboardDto;
 import com.spring.taskflow.domain.dto.dashboard.DashboardUserDto;
 import com.spring.taskflow.domain.service.DashboardService;
