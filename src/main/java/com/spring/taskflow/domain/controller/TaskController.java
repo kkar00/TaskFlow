@@ -2,7 +2,9 @@ package com.spring.taskflow.domain.controller;
 
 import com.spring.taskflow.common.ApiResponse;
 import com.spring.taskflow.domain.dto.tasks.*;
+import com.spring.taskflow.domain.service.JwtService;
 import com.spring.taskflow.domain.service.TaskService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class TaskController {
     // 속성
     private final TaskService taskService;
+    private final JwtService jwtService;
 
     // 생성자
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, JwtService jwtService) {
         this.taskService = taskService;
+        this.jwtService = jwtService;
     }
 
     // 기능
@@ -24,11 +28,13 @@ public class TaskController {
      * Task 생성 API
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<TaskCreateResponseDto>> createTaskAPI(@Valid @RequestBody TaskCreateRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<TaskCreateResponseDto>> createTaskAPI(HttpServletRequest request, @Valid @RequestBody TaskCreateRequestDto requestDto) {
         // 1. 헤더에서 토큰 추출
+        String authHeader = request.getHeader("Authorization");
+        String token = authHeader;
 
         // 2. 토큰 검증
-        Long userId = 1L;
+        Long userId = jwtService.verifyToken(token);
 
         ApiResponse<TaskCreateResponseDto> responseDto = taskService.createTaskService(userId, requestDto);
         ResponseEntity<ApiResponse<TaskCreateResponseDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -63,13 +69,16 @@ public class TaskController {
      */
     @PatchMapping("/{taskId}")
     public ResponseEntity<ApiResponse<TaskUpdateResponseDto>> updateTaskAPI(
+            HttpServletRequest request,
             @PathVariable("taskId") Long taskId,
             @RequestBody TaskUpdateRequestDto requestDto
     ) {
         // 1. 헤더에서 토큰 추출
+        String authHeader = request.getHeader("Authorization");
+        String token = authHeader;
 
         // 2. 토큰 검증
-        Long userId = 1L;
+        Long userId = jwtService.verifyToken(token);
 
         ApiResponse<TaskUpdateResponseDto> responseDto = taskService.updateTaskService(userId, taskId, requestDto);
         ResponseEntity<ApiResponse<TaskUpdateResponseDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -80,11 +89,16 @@ public class TaskController {
      * Task 삭제 API
      */
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<ApiResponse<Object>> deleteTaskAPI(@PathVariable("taskId") Long taskId) {
+    public ResponseEntity<ApiResponse<Object>> deleteTaskAPI(
+            HttpServletRequest request,
+            @PathVariable("taskId") Long taskId
+    ) {
         // 1. 헤더에서 토큰 추출
+        String authHeader = request.getHeader("Authorization");
+        String token = authHeader;
 
         // 2. 토큰 검증
-        Long userId = 1L;
+        Long userId = jwtService.verifyToken(token);
 
         ApiResponse<Object> responseDto = taskService.deleteTaskService(userId, taskId);
         ResponseEntity<ApiResponse<Object>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
