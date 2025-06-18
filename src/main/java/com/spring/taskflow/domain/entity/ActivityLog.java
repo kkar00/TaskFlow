@@ -6,10 +6,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "activityLogs")
+@Table(name = "activity_logs")
 @EntityListeners(AuditingEntityListener.class)
 public class ActivityLog {
-
+    // 속성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "activityLog_id", nullable = false)
@@ -28,19 +28,70 @@ public class ActivityLog {
     private String requestUrl;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "task_id")
-    private Integer taskId;
+    private Long taskId;
 
     @Column(name = "comment_id")
-    private Integer commentId;
+    private Long commentId;
 
     @Column(name = "activity_type", nullable = false, length = 50)
     private String activityType;
 
-    // 기본 생성자
+    // 생성자
+    /**
+     * 기본생성자
+     */
     public ActivityLog() {}
 
-    // 필요 시 getter/setter 또는 생성자 추가
+    // 기능(게터)
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public String getActivityType() {
+        return activityType;
+    }
+
+    public LocalDateTime getRequestedAt() {
+        return requestedAt;
+    }
+
+    // 세터 임시 추가
+    public void setActivityLogId(Long activityLogId) {
+        this.activityLogId = activityLogId;
+    }
+
+    public void setRequestedAt(LocalDateTime requestedAt) {
+        this.requestedAt = requestedAt;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
+    }
+
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
+    }
 }
