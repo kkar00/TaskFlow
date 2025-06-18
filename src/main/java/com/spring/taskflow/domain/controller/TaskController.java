@@ -65,6 +65,17 @@ public class TaskController {
     }
 
     /**
+     * task 검색 API
+     */
+    @GetMapping("/find")
+    public ResponseEntity<ApiResponse<TaskSearchListDto>> getSearchTaskAPI(@RequestBody TaskSearchListRequestDto requestDto) {
+        ApiResponse<TaskSearchListDto> responseDto = taskService.getSearchTaskService(requestDto);
+        ResponseEntity<ApiResponse<TaskSearchListDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return response;
+    }
+
+
+    /**
      * Task 수정 API
      */
     @PatchMapping("/{taskId}")
