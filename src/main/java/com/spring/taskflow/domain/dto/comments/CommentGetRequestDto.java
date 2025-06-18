@@ -6,6 +6,10 @@ public class CommentGetRequestDto {
     private String keyword;
 
     //생성자
+    //기본생성자
+    public CommentGetRequestDto() {
+
+    }
 
     //기능
 
@@ -15,5 +19,13 @@ public class CommentGetRequestDto {
 
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }

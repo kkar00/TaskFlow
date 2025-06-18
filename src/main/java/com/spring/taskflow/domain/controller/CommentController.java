@@ -35,8 +35,15 @@ public class CommentController {
      * 댓글 조회 API
      */
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CommentGetResponseDto>>> getCommentsAPI(CommentGetRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<List<CommentGetResponseDto>>> getCommentsAPI(
+            @RequestParam Long taskId,
+            @RequestParam(required = false) String keyword) {
+        CommentGetRequestDto requestDto = new CommentGetRequestDto();
+        requestDto.setTaskId(taskId);
+        requestDto.setKeyword(keyword);
         List<CommentGetResponseDto> responseDtoList = commentService.getComments(requestDto);
+        System.out.println("taskId: " + requestDto.getTaskId());
+        System.out.println("keyword: " + requestDto.getKeyword());
         ApiResponse<List<CommentGetResponseDto>> apiResponse = new ApiResponse<>(
                 true, "댓글 조회가 완료되었습니다.", responseDtoList);
         return ResponseEntity.ok(apiResponse);

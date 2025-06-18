@@ -78,4 +78,8 @@ public class Task {
 
 
     // 기능
+
+    public Long getTaskId() {
+        return taskId;
+    }
 }

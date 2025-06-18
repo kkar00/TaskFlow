@@ -115,4 +115,16 @@ public class Comment {
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

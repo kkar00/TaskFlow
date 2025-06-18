@@ -8,6 +8,7 @@ public class CommentCreateResponseDto {
     //속성
     private Long commentId;
     private Long userId;
+    private Long taskId;
     private String username;
     private String content;
     private LocalDateTime createdAt;
@@ -16,12 +17,37 @@ public class CommentCreateResponseDto {
     public CommentCreateResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();
         this.userId = comment.getUser().getUserId();
+        this.taskId = comment.getTask().getTaskId();
         this.username = comment.getUser().getUsername();
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.updatedAt = comment.getUpdatedAt();
     }
     //기능
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
     public String getUsername() {
         return username;
