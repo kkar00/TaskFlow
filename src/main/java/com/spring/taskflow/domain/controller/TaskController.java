@@ -28,7 +28,10 @@ public class TaskController {
      * Task 생성 API
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<TaskCreateResponseDto>> createTaskAPI(HttpServletRequest request, @Valid @RequestBody TaskCreateRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<TaskCreateResponseDto>> createTaskAPI(
+            HttpServletRequest request,
+            @Valid @RequestBody TaskCreateRequestDto requestDto
+    ) {
         // 1. 헤더에서 토큰 추출
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

@@ -48,7 +48,10 @@ public class UserController {
 
     // 회원 탈퇴
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String authHeader, @RequestBody UserDeleteRequestDto requestDto) {
+    public ResponseEntity<?> deleteUser(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody UserDeleteRequestDto requestDto
+    ) {
         try {
             String token = authHeader.replace("Bearer ", "");
             long userId = jwtService.verifyToken(token);

@@ -1,9 +1,11 @@
 package com.spring.taskflow.domain.service;
 
 import com.spring.taskflow.domain.dto.comments.*;
+import com.spring.taskflow.domain.entity.ActivityLog;
 import com.spring.taskflow.domain.entity.Comment;
 import com.spring.taskflow.domain.entity.Task;
 import com.spring.taskflow.domain.entity.User;
+import com.spring.taskflow.domain.repository.ActivityLogRepository;
 import com.spring.taskflow.domain.repository.CommentRepository;
 import com.spring.taskflow.domain.repository.TaskRepository;
 import com.spring.taskflow.domain.repository.UserRepository;
@@ -21,12 +23,15 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private UserRepository userRepository;
     private TaskRepository taskRepository;
+    private final ActivityLogRepository activityLogRepository;
     //생성자
-    public CommentService(CommentRepository commentRepository, UserRepository userRepository, TaskRepository taskRepository) {
+    public CommentService(CommentRepository commentRepository, UserRepository userRepository, TaskRepository taskRepository, ActivityLogRepository activityLogRepository) {
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
+        this.activityLogRepository = activityLogRepository;
     }
+
     //기능
 
     /**
@@ -44,6 +49,19 @@ public class CommentService {
         foundComment.setTask(task);
         foundComment.setUserName(user.getUserName());
         Comment saveComment = commentRepository.save(foundComment);
+
+        // 예: 활동 로그 저장
+        ActivityLog log = new ActivityLog();
+        log.setActivityType("CREATE");
+        log.setCommentId(saveComment.getCommentId());
+        log.setUserId(userId);
+        log.setRequestedAt(LocalDateTime.now());
+        log.setIpAddress("127.0.0.1");
+        //IP는 예시
+        log.setRequestMethod("POST");
+        log.setRequestUrl("/api/comments");
+        activityLogRepository.save(log);
+
         CommentCreateResponseDto responseDto = new CommentCreateResponseDto(saveComment);
         return responseDto;
     }
