@@ -2,6 +2,7 @@ package com.spring.taskflow.domain.controller;
 
 import com.spring.taskflow.common.ApiResponse;
 import com.spring.taskflow.domain.dto.activitylog.ActivityLogErrorResponseDto;
+import com.spring.taskflow.domain.dto.activitylog.ActivityLogResponseDto;
 import com.spring.taskflow.domain.entity.ActivityLog;
 import com.spring.taskflow.domain.service.ActivityLogService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,12 +36,10 @@ public class ActivityLogController {
             @RequestParam(required = false) String sortOrder
     ) {
         try {
-            List<ActivityLog> logs = activityLogService.getFilteredActivityLogs(taskId, activityType, startDate, endDate, sortBy, sortOrder);
-            ApiResponse<List<?>> response = new ApiResponse<>(true, "활동로그 조회가 완료되었습니다.", logs);
-            return ResponseEntity.ok(response);
+            List<ActivityLogResponseDto> logs = activityLogService.getActivityLogs(taskId, activityType, startDate, endDate, sortBy, sortOrder);
+            return ResponseEntity.ok(new ApiResponse<List<ActivityLogResponseDto>>(true, "활동로그 조회가 완료되었습니다.", logs));
         } catch (IllegalArgumentException e) {
-            ActivityLogErrorResponseDto errorResponseDto = new ActivityLogErrorResponseDto(400, e.getMessage());
-            return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         }
     }
 }

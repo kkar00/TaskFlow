@@ -1,5 +1,6 @@
 package com.spring.taskflow.domain.service;
 
+import com.spring.taskflow.domain.dto.activitylog.ActivityLogResponseDto;
 import com.spring.taskflow.domain.entity.ActivityLog;
 import com.spring.taskflow.domain.repository.ActivityLogRepository;
 import org.springframework.stereotype.Service;
@@ -72,5 +73,29 @@ public class ActivityLogService {
             }
         }
         return logs;
+    }
+    public List<ActivityLogResponseDto> getActivityLogs(
+            Long taskId,
+            String activityType,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            String sortBy,
+            String sortOrder
+    ) {
+        List<ActivityLog> logs = getFilteredActivityLogs(taskId, activityType, startDate, endDate, sortBy, sortOrder);
+
+        return logs.stream()
+                .map(log -> new ActivityLogResponseDto(
+                        log.getActivityLogId(),
+                        log.getRequestedAt(),
+                        log.getIpAddress(),
+                        log.getRequestMethod(),
+                        log.getRequestUrl(),
+                        log.getUserId(),
+                        log.getTaskId(),
+                        log.getCommentId(),
+                        log.getActivityType()
+                ))
+                .collect(Collectors.toList());
     }
 }
