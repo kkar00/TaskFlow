@@ -1,5 +1,6 @@
 package com.spring.taskflow.domain.entity;
 
+import com.spring.taskflow.domain.dto.comments.CommentCreateRequestDto;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -26,7 +27,7 @@ public class Comment {
     private User user;
 
     @Column(name = "user_name", nullable = false, length = 50)
-    private String username;
+    private String userName;
 
     @Column(name = "content", nullable = false)
     private String content;
@@ -40,10 +41,10 @@ public class Comment {
     private LocalDateTime updatedAt;
 
     @Column(name = "is_deleted", nullable = false)
-    private Boolean isDeleted;
+    private Boolean isDeleted=false;
 
     @Column(name = "deleted_at")
-    private LocalDateTime deleteAt;
+    private LocalDateTime deletedAt;
 
 
     // 생성자
@@ -52,11 +53,78 @@ public class Comment {
      */
     public Comment() {}
 
-    public Comment(String username, String content){
-        this.username = username;
+    public Comment(CommentCreateRequestDto requestDto){
+        this.content = requestDto.getContent();
+    }
+    public void updateContent(String content) {
         this.content = content;
     }
 
+    public void delete() {
+        this.isDeleted = true;
+        this.deletedAt = LocalDateTime.now();
+    }
 
     // 기능
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public LocalDateTime getDeleteAt() {
+        return deletedAt;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

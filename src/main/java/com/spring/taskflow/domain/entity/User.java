@@ -1,5 +1,6 @@
 package com.spring.taskflow.domain.entity;
 
+import com.spring.taskflow.domain.enumdata.Role;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -18,17 +19,18 @@ public class User {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "user_email", nullable = false, length = 100)
+    @Column(name = "user_email", nullable = false, length = 100, unique = true)
     private String userEmail;
 
     @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "user_name", nullable = false, length = 50)
-    private String username;
+    private String userName;
 
     @Column(name = "role", nullable = false, length = 50)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -45,6 +47,12 @@ public class User {
      */
     public User() {}
 
+    public User(String userEmail, String password, String userName, Role role) {
+        this.userEmail = userEmail;
+        this.password = password;
+        this.userName = userName;
+        this.role = role;
+    }
 
     //기능
     /**
@@ -66,5 +74,31 @@ public class User {
     public void onUpdate() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         this.updatedAt = now;
+    }
+
+
+    // getter
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
