@@ -17,7 +17,6 @@ public class TaskCreateRequestDto {
     private Long assigneeId;
     private LocalDateTime startDate;
     private LocalDateTime dueDate;
-    private Status status;
 
     public String getTitle() {
         return title;
@@ -43,7 +42,4 @@ public class TaskCreateRequestDto {
         return dueDate;
     }
 
-    public Status getStatus() {
-        return status;
-    }
 }

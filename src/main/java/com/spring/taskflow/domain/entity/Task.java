@@ -84,7 +84,6 @@ public class Task {
         this.assigneeId = assigneeUser;
         this.startDate = requestDto.getStartDate();
         this.dueDate = requestDto.getDueDate();
-        this.status = requestDto.getStatus();
     }
 
     // 기능
