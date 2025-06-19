@@ -91,6 +91,6 @@ public class UserService {
         }
 
         // 4. 회원 탈퇴
-        userRepository.delete(user);
+        user.setDeleted(true);
     }
 }
