@@ -1,6 +1,7 @@
-package com.spring.taskflow.domain.dto.user.signup;
+package com.spring.taskflow.domain.dto.user;
 
 import com.spring.taskflow.domain.entity.User;
+import com.spring.taskflow.domain.enumdata.Role;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +9,7 @@ public class SignUpResponseDto {
     private final Long userId;
     private final String userEmail;
     private final String userName;
-    private final String role; // TODO Enum으로 바꾸기
+    private final Role role;
     private final LocalDateTime createdAt;
 
     public SignUpResponseDto(User user) {
@@ -33,7 +34,7 @@ public class SignUpResponseDto {
         return userName;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 

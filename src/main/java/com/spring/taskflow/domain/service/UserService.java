@@ -1,14 +1,16 @@
 package com.spring.taskflow.domain.service;
 
 import com.spring.taskflow.config.PasswordEncoder;
-import com.spring.taskflow.domain.dto.user.login.LoginRequestDto;
-import com.spring.taskflow.domain.dto.user.login.LoginResponseDto;
-import com.spring.taskflow.domain.dto.user.signup.SignUpRequestDto;
-import com.spring.taskflow.domain.dto.user.signup.SignUpResponseDto;
+import com.spring.taskflow.domain.dto.user.LoginRequestDto;
+import com.spring.taskflow.domain.dto.user.LoginResponseDto;
+import com.spring.taskflow.domain.dto.user.SignUpRequestDto;
+import com.spring.taskflow.domain.dto.user.SignUpResponseDto;
 import com.spring.taskflow.domain.entity.User;
+import com.spring.taskflow.domain.enumdata.Role;
 import com.spring.taskflow.domain.repository.UserRepository;
 import com.spring.taskflow.exception.UserException;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -39,7 +41,8 @@ public class UserService {
         // 5. request에서 password 꺼내서 암호화
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         // 6. User 생성 (email, 암호화된 pssword, name, role)
-        User user = new User(email, encodedPassword, request.getUserName(), "admin");
+        Role role = Role.stringToRole(request.getRole());
+        User user = new User(email, encodedPassword, request.getUserName(), role);
         // 7. repository에 저장 , savedUser변수에 저장
         User savedUser = userRepository.save(user);
         // 8. savedUser를 SignUpResponseDto로 변환 후 반환
@@ -64,6 +67,26 @@ public class UserService {
         }
     }
 
+    /**
+     * 회원 탈퇴 기능
+     */
+    public void deleteUser(long userId, String userEmail, String password) {
+        // 1. 사용자 조회
+        Optional<User> optionalUser = userRepository.findById(userId);
 
+        User user = optionalUser.get();
 
+        // 2. 이메일 일치 확인
+        if (!user.getUserEmail().equals(userEmail)) {
+            throw new IllegalArgumentException("이메일이 일치하지 않습니다.");
+        }
+
+        // 3. 비밀번호 일치 확인
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        // 4. 회원 탈퇴
+        userRepository.delete(user);
+    }
 }

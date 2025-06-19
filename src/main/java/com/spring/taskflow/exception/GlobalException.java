@@ -23,14 +23,6 @@ public class GlobalException {
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
-//    // Validation 예외 처리
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-//
-//        ApiResponse<Void> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
-//        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
-//    }
-
     // UserException 예외 처리
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ApiResponse<Void>> handleUserException(UserException ex) {

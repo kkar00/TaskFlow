@@ -28,13 +28,13 @@ public class ActivityLog {
     private String requestUrl;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "task_id")
-    private Integer taskId;
+    private Long taskId;
 
     @Column(name = "comment_id")
-    private Integer commentId;
+    private Long commentId;
 
     @Column(name = "activity_type", nullable = false, length = 50)
     private String activityType;
@@ -46,9 +46,77 @@ public class ActivityLog {
      */
     public ActivityLog() {}
 
+    // 기능(게터)
+    public Long getTaskId() {
+        return taskId;
+    }
 
-    // 기능
+    public String getActivityType() {
+        return activityType;
+    }
 
+    public LocalDateTime getRequestedAt() {
+        return requestedAt;
+    }
 
+    // 게터, 세터
+    public Long getActivityLogId() {
+        return activityLogId;
+    }
 
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public String getRequestUrl() {
+        return requestUrl;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public void setActivityLogId(Long activityLogId) {
+        this.activityLogId = activityLogId;
+    }
+
+    public void setRequestedAt(LocalDateTime requestedAt) {
+        this.requestedAt = requestedAt;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
+    }
+
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
+    }
 }

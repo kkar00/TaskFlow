@@ -60,14 +60,13 @@ public class TaskService {
     public ApiResponse<TaskListDto> getTaskListService(int page , int size) {
         // 페이지 설정 ( createdAt 기준 내림차순 )
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Task> taskPage = taskRepository.findAllByIsDeletedFalse(pageable);
 
-        Page<Task> taskPage = taskRepository.findAll(pageable);
-
-        List<TaskListResponseDto> taskListDtoListResponse = taskPage.getContent().stream()
+        List<TaskListResponseDto> responseDtoList = taskPage.getContent().stream()
                 .map(TaskListResponseDto::new)
                 .collect(Collectors.toList());
 
-        ApiResponse<TaskListDto> response = new ApiResponse<>(true, "태스크 조회가 완료되었습니다.", new TaskListDto(taskListDtoListResponse));
+        ApiResponse<TaskListDto> response = new ApiResponse<>(true, "태스크 조회가 완료되었습니다.", new TaskListDto(responseDtoList));
         return response;
     }
 
@@ -75,8 +74,38 @@ public class TaskService {
      * Task 단건 조회 기능
      */
     public ApiResponse<TaskGetDetailResponseDto> getTaskDetialService(Long taskId) {
-        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
+        Task foundTask = taskRepository.findByTaskIdAndIsDeletedFalse(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않거나 삭제된 상태입니다."));
         ApiResponse<TaskGetDetailResponseDto> response = new ApiResponse<>(true, "태스크 조회가 완료되었습니다.", new TaskGetDetailResponseDto(foundTask));
+        return response;
+    }
+
+    /**
+     * Task 제목 검색 기능
+     */
+    public ApiResponse<TaskSearchListDto> getTaskSearchTitleService(int page , int size , TaskSearchListRequestDto requestDto) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Task> tasks = taskRepository.findByTitleContaining(requestDto.getSearch(), pageable);
+
+        List<TaskSearchListResponseDto> responseDtoList = tasks.getContent().stream()
+                .map(TaskSearchListResponseDto::new)
+                .collect(Collectors.toList());
+
+        ApiResponse<TaskSearchListDto> response = new ApiResponse<>(true, "태스그 검색이 완료되었습니다.", new TaskSearchListDto(responseDtoList));
+        return response;
+    }
+
+    /**
+     * Task 내용 검색 기능
+     */
+    public ApiResponse<TaskSearchListDto> getTaskSearchDescriptionService(int page , int size , TaskSearchListRequestDto requestDto) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Task> tasks = taskRepository.findByDescriptionContaining(requestDto.getSearch(), pageable);
+
+        List<TaskSearchListResponseDto> responseDtoList = tasks.getContent().stream()
+                .map(TaskSearchListResponseDto::new)
+                .collect(Collectors.toList());
+
+        ApiResponse<TaskSearchListDto> response = new ApiResponse<>(true, "태스크 검색이 완료되었습니다.", new TaskSearchListDto(responseDtoList));
         return response;
     }
 
@@ -91,9 +120,31 @@ public class TaskService {
         Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
         // 담당자 조회
         User assignee = userRepository.findById(requestDto.getAssigneeId()).orElseThrow(() -> new RuntimeException("해당 담당자가 존재하지 않습니다"));
+        // 태스크 상태 업데이트
+        if (!foundTask.getStatus().transitionTo(requestDto.getStatus())) {
+            throw new IllegalArgumentException("상태값은 순서에 맞게 변경해야 합니다.");
+        }
         // 태스크 업데이트
         foundTask.updateTask(loginUser, assignee, requestDto);
         ApiResponse<TaskUpdateResponseDto> response = new ApiResponse<>(true, "태스크 수정이 완료되었습니다.", new TaskUpdateResponseDto(foundTask));
+        return response;
+    }
+
+    /**
+     * Task Status 수정 기능
+     */
+    @Transactional
+    public ApiResponse<TaskUpdateStatusResponseDto> updateTaskStatusService(Long userId, Long taskId, TaskUpdateStatusRequestDto requestDto) {
+        // 토큰으로 접속한 유저 검증
+        User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("회원 정보가 일치하지 않습니다."));
+        // 태스크 조회
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
+        // 태스크 상태 업데이트
+        if (!foundTask.getStatus().transitionTo(requestDto.getStatus())) {
+            throw new IllegalArgumentException("상태값은 순서에 맞게 변경해야 합니다.");
+        }
+        foundTask.updateStatusTask(requestDto);
+        ApiResponse<TaskUpdateStatusResponseDto> response = new ApiResponse<>(true, "태스크 상태값 수정이 완료되었습니다.", new TaskUpdateStatusResponseDto(foundTask));
         return response;
     }
 
@@ -107,7 +158,7 @@ public class TaskService {
         // 태스크 조회
         Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
         // 태스크 삭제
-        taskRepository.delete(foundTask);
+        foundTask.deleteTask();
         ApiResponse<Object> response = new ApiResponse<>(true, "태스크 삭제가 완료되었습니다.",null);
         return response;
     }
