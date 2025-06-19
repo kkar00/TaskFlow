@@ -60,6 +60,9 @@ public class UserService {
         // 2. 존재하는 회원인지 아이디, 비밀번호 확인
         // 3. 로그인 실패 - 예외처리
         User loginUser = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new UserException("잘못된 이메일 입니다."));
+        if (loginUser.isDeleted()) {
+            throw new UserException("탈퇴한 회원입니다.");
+        }
         if(passwordEncoder.matches(password, loginUser.getPassword())) {
             // 4. 로그인 성공
             // 5. 토큰 발급, 반환
@@ -91,6 +94,6 @@ public class UserService {
         }
 
         // 4. 회원 탈퇴
-        user.setDeleted(true);
+        user.deleteUser();
     }
 }
