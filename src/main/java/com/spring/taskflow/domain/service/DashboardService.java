@@ -46,9 +46,9 @@ public class DashboardService {
     /**
      * 유저 대시보드 조회 API
      */
-    public ApiResponse<List<DashboardUserDto>> getDashboardUserService() throws IllegalAccessException {
+    public ApiResponse<List<DashboardUserDto>> getDashboardUserService(Long userId) throws IllegalAccessException {
         // 조회
-        List<Dashboard> dashboardList = dashboardRepository.findAll();
+        List<Dashboard> dashboardList = dashboardRepository.findByUserId(userId);
         if(!dashboardList.isEmpty()) {
             List<DashboardUserDto> dashboardDtoList = dashboardList.stream()
                     .map(dashboard -> new DashboardUserDto(dashboard.getUserId(), dashboard.getTotalTask(), dashboard.getDoneTasks(),
