@@ -84,7 +84,7 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        // 4. 회원 탈퇴 (DB에서 삭제)
+        // 4. 회원 탈퇴
         userRepository.delete(user);
     }
 }
