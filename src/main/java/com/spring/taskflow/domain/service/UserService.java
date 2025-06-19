@@ -10,6 +10,7 @@ import com.spring.taskflow.domain.enumdata.Role;
 import com.spring.taskflow.domain.repository.UserRepository;
 import com.spring.taskflow.exception.UserException;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -66,6 +67,26 @@ public class UserService {
         }
     }
 
+    /**
+     * 회원 탈퇴 기능
+     */
+    public void deleteUser(long userId, String userEmail, String password) {
+        // 1. 사용자 조회
+        Optional<User> optionalUser = userRepository.findById(userId);
 
+        User user = optionalUser.get();
 
+        // 2. 이메일 일치 확인
+        if (!user.getUserEmail().equals(userEmail)) {
+            throw new IllegalArgumentException("이메일이 일치하지 않습니다.");
+        }
+
+        // 3. 비밀번호 일치 확인
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        // 4. 회원 탈퇴
+        userRepository.delete(user);
+    }
 }

@@ -9,18 +9,20 @@ import com.spring.taskflow.domain.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.spring.taskflow.domain.service.JwtService;
+import com.spring.taskflow.domain.dto.user.deleteUser.UserDeleteRequestDto;
+import io.jsonwebtoken.JwtException;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final JwtService jwtService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     // 회원가입
@@ -42,5 +44,24 @@ public class UserController {
 
         // 3. 토큰 반환
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    // 회원 탈퇴
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String authHeader, @RequestBody UserDeleteRequestDto requestDto) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            long userId = jwtService.verifyToken(token);
+
+            userService.deleteUser(userId, requestDto.getUserEmail(), requestDto.getPassword());
+            // 성공 응답
+            return ResponseEntity.ok(new ApiResponse<>(true, "회원탈퇴가 완료되었습니다.", null));
+        } catch (JwtException e) {
+            // 인증 실패
+            return ResponseEntity.status(401).body(new ApiResponse<>(false,"로그인이 필요합니다.", null));
+        } catch (IllegalArgumentException e) {
+            // 비밀번호 불일치, 이메일 불일치 등
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
+        }
     }
 }
