@@ -60,7 +60,6 @@ public class TaskService {
     public ApiResponse<TaskListDto> getTaskListService(int page , int size) {
         // 페이지 설정 ( createdAt 기준 내림차순 )
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-
         Page<Task> taskPage = taskRepository.findAllByIsDeletedFalse(pageable);
 
         List<TaskListResponseDto> responseDtoList = taskPage.getContent().stream()
