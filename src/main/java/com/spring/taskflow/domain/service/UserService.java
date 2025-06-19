@@ -6,6 +6,7 @@ import com.spring.taskflow.domain.dto.user.login.LoginResponseDto;
 import com.spring.taskflow.domain.dto.user.signup.SignUpRequestDto;
 import com.spring.taskflow.domain.dto.user.signup.SignUpResponseDto;
 import com.spring.taskflow.domain.entity.User;
+import com.spring.taskflow.domain.enumdata.Role;
 import com.spring.taskflow.domain.repository.UserRepository;
 import com.spring.taskflow.exception.UserException;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,8 @@ public class UserService {
         // 5. request에서 password 꺼내서 암호화
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         // 6. User 생성 (email, 암호화된 pssword, name, role)
-        User user = new User(email, encodedPassword, request.getUserName(), "admin");
+        Role role = Role.stringToRole(request.getRole());
+        User user = new User(email, encodedPassword, request.getUserName(), role);
         // 7. repository에 저장 , savedUser변수에 저장
         User savedUser = userRepository.save(user);
         // 8. savedUser를 SignUpResponseDto로 변환 후 반환
