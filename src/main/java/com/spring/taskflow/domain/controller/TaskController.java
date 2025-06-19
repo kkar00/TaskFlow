@@ -114,6 +114,27 @@ public class TaskController {
     }
 
     /**
+     * Task Status 수정 API
+     */
+    @PatchMapping("status/{taskId}")
+    public ResponseEntity<ApiResponse<TaskUpdateStatusResponseDto>> updateTaskStatusAPI(
+            HttpServletRequest request,
+            @PathVariable("taskId") Long taskId,
+            @RequestBody TaskUpdateStatusRequestDto requestDto
+    ) {
+        // 1. 헤더에서 토큰 추출
+        String authHeader = request.getHeader("Authorization");
+        String token = authHeader;
+
+        // 2. 토큰 검증
+        Long userId = jwtService.verifyToken(token);
+
+        ApiResponse<TaskUpdateStatusResponseDto> responseDto = taskService.updateTaskStatusService(userId, taskId, requestDto);
+        ResponseEntity<ApiResponse<TaskUpdateStatusResponseDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return response;
+    }
+
+    /**
      * Task 삭제 API
      */
     @DeleteMapping("/{taskId}")

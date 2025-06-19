@@ -121,9 +121,31 @@ public class TaskService {
         Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
         // 담당자 조회
         User assignee = userRepository.findById(requestDto.getAssigneeId()).orElseThrow(() -> new RuntimeException("해당 담당자가 존재하지 않습니다"));
+        // 태스크 상태 업데이트
+        if (!foundTask.getStatus().transitionTo(requestDto.getStatus())) {
+            throw new IllegalArgumentException("상태값은 순서에 맞게 변경해야 합니다.");
+        }
         // 태스크 업데이트
         foundTask.updateTask(loginUser, assignee, requestDto);
         ApiResponse<TaskUpdateResponseDto> response = new ApiResponse<>(true, "태스크 수정이 완료되었습니다.", new TaskUpdateResponseDto(foundTask));
+        return response;
+    }
+
+    /**
+     * Task Status 수정 기능
+     */
+    @Transactional
+    public ApiResponse<TaskUpdateStatusResponseDto> updateTaskStatusService(Long userId, Long taskId, TaskUpdateStatusRequestDto requestDto) {
+        // 토큰으로 접속한 유저 검증
+        User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("회원 정보가 일치하지 않습니다."));
+        // 태스크 조회
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("태스크가 존재하지 않습니다."));
+        // 태스크 상태 업데이트
+        if (!foundTask.getStatus().transitionTo(requestDto.getStatus())) {
+            throw new IllegalArgumentException("상태값은 순서에 맞게 변경해야 합니다.");
+        }
+        foundTask.updateStatusTask(requestDto);
+        ApiResponse<TaskUpdateStatusResponseDto> response = new ApiResponse<>(true, "태스크 상태값 수정이 완료되었습니다.", new TaskUpdateStatusResponseDto(foundTask));
         return response;
     }
 

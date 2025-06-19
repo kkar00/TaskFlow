@@ -1,10 +1,12 @@
 package com.spring.taskflow.domain.dto.tasks;
 
 import com.spring.taskflow.domain.entity.Task;
+import com.spring.taskflow.domain.entity.User;
 import com.spring.taskflow.domain.enumdata.Priority;
 import com.spring.taskflow.domain.enumdata.Status;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class TaskUpdateResponseDto {
     private Long taskId;
@@ -24,7 +26,8 @@ public class TaskUpdateResponseDto {
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.priority = task.getPriority();
-        this.assigneeId = task.getAssigneeId().getUserId();
+        this.createdById = Optional.ofNullable(task.getCreatedById()).map(User::getUserId).orElse(null);
+        this.assigneeId = Optional.ofNullable(task.getAssigneeId()).map(User::getUserId).orElse(null);
         this.startDate = task.getStartDate();
         this.dueDate = task.getDueDate();
         this.status = task.getStatus();

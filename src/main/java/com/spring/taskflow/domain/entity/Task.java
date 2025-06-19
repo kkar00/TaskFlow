@@ -2,6 +2,7 @@ package com.spring.taskflow.domain.entity;
 
 import com.spring.taskflow.domain.dto.tasks.TaskCreateRequestDto;
 import com.spring.taskflow.domain.dto.tasks.TaskUpdateRequestDto;
+import com.spring.taskflow.domain.dto.tasks.TaskUpdateStatusRequestDto;
 import com.spring.taskflow.domain.enumdata.Priority;
 import com.spring.taskflow.domain.enumdata.Status;
 import jakarta.persistence.*;
@@ -128,6 +129,13 @@ public class Task {
     public void deleteTask() {
         this.isDeleted = true;
         this.deletedAt = LocalDateTime.now();
+    }
+
+    /**
+     * Task Status 수정 API 에서 사용하는 기능
+     */
+    public void updateStatusTask(TaskUpdateStatusRequestDto requestDto) {
+        this.status = requestDto.getStatus();
     }
 
     // 게터
