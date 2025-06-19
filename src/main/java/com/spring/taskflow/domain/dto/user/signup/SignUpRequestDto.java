@@ -1,6 +1,5 @@
 package com.spring.taskflow.domain.dto.user.signup;
 
-import com.spring.taskflow.domain.enumdata.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

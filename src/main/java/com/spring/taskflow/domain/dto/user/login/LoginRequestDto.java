@@ -2,8 +2,6 @@ package com.spring.taskflow.domain.dto.user.login;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 public class LoginRequestDto {
     @NotBlank(message = "null/공백은 입력 불가합니다.")
