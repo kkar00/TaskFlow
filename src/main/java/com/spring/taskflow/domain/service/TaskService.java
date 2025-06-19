@@ -2,8 +2,10 @@ package com.spring.taskflow.domain.service;
 
 import com.spring.taskflow.common.ApiResponse;
 import com.spring.taskflow.domain.dto.tasks.*;
+import com.spring.taskflow.domain.entity.ActivityLog;
 import com.spring.taskflow.domain.entity.Task;
 import com.spring.taskflow.domain.entity.User;
+import com.spring.taskflow.domain.repository.ActivityLogRepository;
 import com.spring.taskflow.domain.repository.TaskRepository;
 import com.spring.taskflow.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +24,15 @@ public class TaskService {
     // 속성
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final ActivityLogRepository activityLogRepository;
 
     // 생성자
-    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository, ActivityLogRepository activityLogRepository) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.activityLogRepository = activityLogRepository;
     }
+
 
     // 기능
 
@@ -48,6 +54,18 @@ public class TaskService {
         // Task 저장
         Task foundTask = new Task(loginUser, assigneeUser, requestDto);
         taskRepository.save(foundTask);
+
+        // 예: 활동 로그 저장
+        ActivityLog log = new ActivityLog();
+        log.setActivityType("CREATE");
+        log.setTaskId(foundTask.getTaskId());
+        log.setUserId(userId);
+        log.setRequestedAt(LocalDateTime.now());
+        log.setIpAddress("127.0.0.1");
+        //IP는 예시
+        log.setRequestMethod("POST");
+        log.setRequestUrl("/api/tasks");
+        activityLogRepository.save(log);
 
         // ResponseDto 생성 및 반환
         ApiResponse<TaskCreateResponseDto> responseDto = new ApiResponse<>(true, "태스크 생성이 완료되었습니다.", new TaskCreateResponseDto(foundTask));

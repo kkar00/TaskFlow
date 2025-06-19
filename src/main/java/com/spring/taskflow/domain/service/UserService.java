@@ -7,8 +7,11 @@ import com.spring.taskflow.domain.dto.user.SignUpRequestDto;
 import com.spring.taskflow.domain.dto.user.SignUpResponseDto;
 import com.spring.taskflow.domain.entity.User;
 import com.spring.taskflow.domain.enumdata.Role;
+import com.spring.taskflow.domain.repository.CommentRepository;
+import com.spring.taskflow.domain.repository.TaskRepository;
 import com.spring.taskflow.domain.repository.UserRepository;
 import com.spring.taskflow.exception.UserException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -70,6 +73,7 @@ public class UserService {
     /**
      * 회원 탈퇴 기능
      */
+    @Transactional
     public void deleteUser(long userId, String userEmail, String password) {
         // 1. 사용자 조회
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -87,6 +91,6 @@ public class UserService {
         }
 
         // 4. 회원 탈퇴
-        userRepository.delete(user);
+        user.setDeleted(true);
     }
 }

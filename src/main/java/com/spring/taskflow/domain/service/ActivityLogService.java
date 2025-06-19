@@ -25,6 +25,7 @@ public class ActivityLogService {
      */
     public List<ActivityLog> getFilteredActivityLogs(
             Long taskId,
+            Long commentId,
             String activityType,
             LocalDateTime startDate,
             LocalDateTime endDate,
@@ -40,6 +41,9 @@ public class ActivityLogService {
 
         if (taskId != null) {
             logs = logs.stream().filter(log ->log.getTaskId() != null && log.getTaskId().equals(taskId)).collect(Collectors.toList());
+        }
+        if (commentId != null) {
+            logs = logs.stream().filter(log ->log.getCommentId() != null && log.getCommentId().equals(commentId)).collect(Collectors.toList());
         }
         if (activityType != null) {
             logs = logs.stream().filter(log -> log.getActivityType() != null && log.getActivityType().equals(activityType)).collect(Collectors.toList());
@@ -76,13 +80,14 @@ public class ActivityLogService {
     }
     public List<ActivityLogResponseDto> getActivityLogs(
             Long taskId,
+            Long commentId,
             String activityType,
             LocalDateTime startDate,
             LocalDateTime endDate,
             String sortBy,
             String sortOrder
     ) {
-        List<ActivityLog> logs = getFilteredActivityLogs(taskId, activityType, startDate, endDate, sortBy, sortOrder);
+        List<ActivityLog> logs = getFilteredActivityLogs(taskId, commentId, activityType, startDate, endDate, sortBy, sortOrder);
 
         return logs.stream()
                 .map(log -> new ActivityLogResponseDto(

@@ -28,10 +28,16 @@ public class TaskController {
      * Task 생성 API
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<TaskCreateResponseDto>> createTaskAPI(HttpServletRequest request, @Valid @RequestBody TaskCreateRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<TaskCreateResponseDto>> createTaskAPI(
+            HttpServletRequest request,
+            @Valid @RequestBody TaskCreateRequestDto requestDto
+    ) {
         // 1. 헤더에서 토큰 추출
         String authHeader = request.getHeader("Authorization");
-        String token = authHeader;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("토근이 올바르지 않습니다");
+        }
+        String token = authHeader.substring(7);
 
         // 2. 토큰 검증
         Long userId = jwtService.verifyToken(token);
@@ -103,7 +109,10 @@ public class TaskController {
     ) {
         // 1. 헤더에서 토큰 추출
         String authHeader = request.getHeader("Authorization");
-        String token = authHeader;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("토근이 올바르지 않습니다");
+        }
+        String token = authHeader.substring(7);
 
         // 2. 토큰 검증
         Long userId = jwtService.verifyToken(token);
@@ -124,7 +133,10 @@ public class TaskController {
     ) {
         // 1. 헤더에서 토큰 추출
         String authHeader = request.getHeader("Authorization");
-        String token = authHeader;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("토근이 올바르지 않습니다");
+        }
+        String token = authHeader.substring(7);
 
         // 2. 토큰 검증
         Long userId = jwtService.verifyToken(token);
@@ -144,7 +156,10 @@ public class TaskController {
     ) {
         // 1. 헤더에서 토큰 추출
         String authHeader = request.getHeader("Authorization");
-        String token = authHeader;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("토근이 올바르지 않습니다");
+        }
+        String token = authHeader.substring(7);
 
         // 2. 토큰 검증
         Long userId = jwtService.verifyToken(token);

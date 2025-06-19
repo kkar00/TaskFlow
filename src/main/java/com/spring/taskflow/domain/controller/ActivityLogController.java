@@ -29,6 +29,7 @@ public class ActivityLogController {
     @GetMapping
     public ResponseEntity<?> getFilteredActivityLogs(
             @RequestParam(required = false) Long taskId,
+            @RequestParam(required = false) Long commentId,
             @RequestParam(required = false) String activityType,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
@@ -36,7 +37,7 @@ public class ActivityLogController {
             @RequestParam(required = false) String sortOrder
     ) {
         try {
-            List<ActivityLogResponseDto> logs = activityLogService.getActivityLogs(taskId, activityType, startDate, endDate, sortBy, sortOrder);
+            List<ActivityLogResponseDto> logs = activityLogService.getActivityLogs(taskId, commentId, activityType, startDate, endDate, sortBy, sortOrder);
             return ResponseEntity.ok(new ApiResponse<List<ActivityLogResponseDto>>(true, "활동로그 조회가 완료되었습니다.", logs));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));

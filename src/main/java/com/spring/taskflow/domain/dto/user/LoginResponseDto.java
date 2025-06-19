@@ -4,7 +4,7 @@ public class LoginResponseDto {
     private final String token;
 
     public LoginResponseDto(String token) {
-        this.token = token;
+        this.token = "Bearer " + token;
     }
 
     // getter
