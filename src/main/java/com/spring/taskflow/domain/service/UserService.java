@@ -69,12 +69,8 @@ public class UserService {
      * 회원 탈퇴 기능
      */
     public void deleteUser(long userId, String userEmail, String password) {
-        // 1. ID로 사용자 조회 (토큰이 유효하다는 가정 하에 userId는 DB에 존재해야 함)
+        // 1. 사용자 조회
         Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty()) {
-            // 이 상황은 토큰이 유효한데 userId로 조회 실패한 경우로, 발생하지 않아야 정상
-            return; // 또는 log.warn(...)만 남김
-        }
 
         User user = optionalUser.get();
 
@@ -83,7 +79,7 @@ public class UserService {
             throw new IllegalArgumentException("이메일이 일치하지 않습니다.");
         }
 
-        // 3. 비밀번호 일치 확인 (암호화된 비밀번호 비교)
+        // 3. 비밀번호 일치 확인
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
