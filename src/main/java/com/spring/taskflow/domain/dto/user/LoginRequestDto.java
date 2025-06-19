@@ -1,4 +1,4 @@
-package com.spring.taskflow.domain.dto.user.login;
+package com.spring.taskflow.domain.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

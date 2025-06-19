@@ -1,17 +1,17 @@
 package com.spring.taskflow.domain.controller;
 
 import com.spring.taskflow.common.ApiResponse;
-import com.spring.taskflow.domain.dto.user.login.LoginRequestDto;
-import com.spring.taskflow.domain.dto.user.login.LoginResponseDto;
-import com.spring.taskflow.domain.dto.user.signup.SignUpRequestDto;
-import com.spring.taskflow.domain.dto.user.signup.SignUpResponseDto;
+import com.spring.taskflow.domain.dto.user.LoginRequestDto;
+import com.spring.taskflow.domain.dto.user.LoginResponseDto;
+import com.spring.taskflow.domain.dto.user.SignUpRequestDto;
+import com.spring.taskflow.domain.dto.user.SignUpResponseDto;
 import com.spring.taskflow.domain.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.spring.taskflow.domain.service.JwtService;
-import com.spring.taskflow.domain.dto.user.deleteUser.UserDeleteRequestDto;
+import com.spring.taskflow.domain.dto.user.UserDeleteRequestDto;
 import io.jsonwebtoken.JwtException;
 
 @RestController

@@ -1,4 +1,4 @@
-package com.spring.taskflow.domain.dto.user.deleteUser;
+package com.spring.taskflow.domain.dto.user;
 
 public class UserDeleteRequestDto {
     // 속성
