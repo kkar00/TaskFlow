@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/activityLogs")
+@RequestMapping("/activityLogs")
 public class ActivityLogController {
 
     private final ActivityLogService activityLogService;

@@ -1,4 +1,4 @@
-package com.spring.taskflow.domain.dto.user.login;
+package com.spring.taskflow.domain.dto.user;
 
 public class LoginResponseDto {
     private final String token;

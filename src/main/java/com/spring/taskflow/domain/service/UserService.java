@@ -1,10 +1,10 @@
 package com.spring.taskflow.domain.service;
 
 import com.spring.taskflow.config.PasswordEncoder;
-import com.spring.taskflow.domain.dto.user.login.LoginRequestDto;
-import com.spring.taskflow.domain.dto.user.login.LoginResponseDto;
-import com.spring.taskflow.domain.dto.user.signup.SignUpRequestDto;
-import com.spring.taskflow.domain.dto.user.signup.SignUpResponseDto;
+import com.spring.taskflow.domain.dto.user.LoginRequestDto;
+import com.spring.taskflow.domain.dto.user.LoginResponseDto;
+import com.spring.taskflow.domain.dto.user.SignUpRequestDto;
+import com.spring.taskflow.domain.dto.user.SignUpResponseDto;
 import com.spring.taskflow.domain.entity.User;
 import com.spring.taskflow.domain.enumdata.Role;
 import com.spring.taskflow.domain.repository.UserRepository;

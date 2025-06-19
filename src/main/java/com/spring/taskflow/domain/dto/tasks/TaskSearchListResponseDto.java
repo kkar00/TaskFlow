@@ -1,13 +1,14 @@
 package com.spring.taskflow.domain.dto.tasks;
 
 import com.spring.taskflow.domain.entity.Task;
+import com.spring.taskflow.domain.entity.User;
 import com.spring.taskflow.domain.enumdata.Priority;
 import com.spring.taskflow.domain.enumdata.Status;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-public class TaskCreateDto {
-    // 속성
+public class TaskSearchListResponseDto {
     private Long taskId;
     private String title;
     private String description;
@@ -20,13 +21,13 @@ public class TaskCreateDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // 생성자
-    public TaskCreateDto(Task task) {
+    public TaskSearchListResponseDto(Task task) {
         this.taskId = task.getTaskId();
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.priority = task.getPriority();
-        this.assigneeId = task.getAssigneeId().getUserId();
+        this.createdById = Optional.ofNullable(task.getCreatedById()).map(User::getUserId).orElse(null);
+        this.assigneeId = Optional.ofNullable(task.getAssigneeId()).map(User::getUserId).orElse(null);
         this.startDate = task.getStartDate();
         this.dueDate = task.getDueDate();
         this.status = task.getStatus();
@@ -34,8 +35,6 @@ public class TaskCreateDto {
         this.updatedAt = task.getUpdatedAt();
     }
 
-    // 기능
-    // 게터
     public Long getTaskId() {
         return taskId;
     }

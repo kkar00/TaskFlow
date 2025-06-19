@@ -1,4 +1,4 @@
-package com.spring.taskflow.domain.dto.user.signup;
+package com.spring.taskflow.domain.dto.user;
 
 import com.spring.taskflow.domain.entity.User;
 import com.spring.taskflow.domain.enumdata.Role;
