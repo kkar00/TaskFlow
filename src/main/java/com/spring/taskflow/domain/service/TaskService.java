@@ -83,15 +83,30 @@ public class TaskService {
     /**
      * Task 제목 검색 기능
      */
-    public ApiResponse<TaskSearchListDto> getTaskSearchTitleService(int page , int size, TaskSearchListRequestDto requestDto) {
+    public ApiResponse<TaskSearchListDto> getTaskSearchTitleService(int page , int size , TaskSearchListRequestDto requestDto) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Task> searchTaskList = taskRepository.findByTitleContaining(requestDto.getSearch(), pageable);
+        Page<Task> tasks = taskRepository.findByTitleContaining(requestDto.getSearch(), pageable);
 
-        List<TaskSearchListResponseDto> responseDtoList = searchTaskList.getContent().stream()
+        List<TaskSearchListResponseDto> responseDtoList = tasks.getContent().stream()
                 .map(TaskSearchListResponseDto::new)
                 .collect(Collectors.toList());
 
         ApiResponse<TaskSearchListDto> response = new ApiResponse<>(true, "태스그 검색이 완료되었습니다.", new TaskSearchListDto(responseDtoList));
+        return response;
+    }
+
+    /**
+     * Task 내용 검색 기능
+     */
+    public ApiResponse<TaskSearchListDto> getTaskSearchDescriptionService(int page , int size , TaskSearchListRequestDto requestDto) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Task> tasks = taskRepository.findByDescriptionContaining(requestDto.getSearch(), pageable);
+
+        List<TaskSearchListResponseDto> responseDtoList = tasks.getContent().stream()
+                .map(TaskSearchListResponseDto::new)
+                .collect(Collectors.toList());
+
+        ApiResponse<TaskSearchListDto> response = new ApiResponse<>(true, "태스크 검색이 완료되었습니다.", new TaskSearchListDto(responseDtoList));
         return response;
     }
 

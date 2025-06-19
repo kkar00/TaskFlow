@@ -65,9 +65,9 @@ public class TaskController {
     }
 
     /**
-     * task 제목 검색 API
+     * Task 제목 검색 API
      */
-    @GetMapping("/find")
+    @GetMapping("/searchtitle")
     public ResponseEntity<ApiResponse<TaskSearchListDto>> getTaskSearchTitleAPI(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -78,6 +78,19 @@ public class TaskController {
         return response;
     }
 
+    /**
+     * Task 내용 검색 API
+     */
+    @GetMapping("/searchdescription")
+    public ResponseEntity<ApiResponse<TaskSearchListDto>> getTaskSearchDescriptionAPI(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestBody TaskSearchListRequestDto requestDto
+    ) {
+        ApiResponse<TaskSearchListDto> responseDto = taskService.getTaskSearchDescriptionService(page, size, requestDto);
+        ResponseEntity<ApiResponse<TaskSearchListDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return response;
+    }
 
     /**
      * Task 수정 API

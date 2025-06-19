@@ -12,4 +12,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Page<Task> findAllByIsDeletedFalse(Pageable pageable);
     Optional<Task> findByTaskIdAndIsDeletedFalse(Long taskId);
     Page<Task> findByTitleContaining(String keyword, Pageable pageable);
+    Page<Task> findByDescriptionContaining(String keyword, Pageable pageable);
 }
