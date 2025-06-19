@@ -37,15 +37,13 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<LoginResponseDto>> login(@RequestBody LoginRequestDto request) {
+    public ResponseEntity<ApiResponse<LoginResponseDto>> login(@Validated @RequestBody LoginRequestDto request) {
 
         LoginResponseDto loginResponseDto = userService.login(request);
         ApiResponse response = new ApiResponse(true, "로그인이 완료되었습니다.", loginResponseDto);
 
         // 3. 토큰 반환
         return new ResponseEntity<>(response, HttpStatus.CREATED);
-
-        // TODO @Validated 추가
     }
 
     // 회원 탈퇴

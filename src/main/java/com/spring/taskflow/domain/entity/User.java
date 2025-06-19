@@ -1,5 +1,6 @@
 package com.spring.taskflow.domain.entity;
 
+import com.spring.taskflow.domain.enumdata.Role;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -28,7 +29,8 @@ public class User {
     private String userName;
 
     @Column(name = "role", nullable = false, length = 50)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -45,7 +47,7 @@ public class User {
      */
     public User() {}
 
-    public User(String userEmail, String password, String userName, String role) {
+    public User(String userEmail, String password, String userName, Role role) {
         this.userEmail = userEmail;
         this.password = password;
         this.userName = userName;
@@ -92,7 +94,7 @@ public class User {
         return userName;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
