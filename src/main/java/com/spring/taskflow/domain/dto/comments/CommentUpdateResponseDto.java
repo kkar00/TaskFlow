@@ -15,12 +15,12 @@ public class CommentUpdateResponseDto {
     //셍성자
 
     public CommentUpdateResponseDto(Comment comment) {
-        this.commentId = commentId;
-        this.userId = userId;
-        this.userName = userName;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.commentId = comment.getCommentId();
+        this.userId = comment.getUser().getUserId();
+        this.userName = comment.getUser().getUserName();
+        this.content = comment.getContent();
+        this.createdAt = comment.getCreatedAt();
+        this.updatedAt = comment.getUpdatedAt();
     }
 
     //기능
