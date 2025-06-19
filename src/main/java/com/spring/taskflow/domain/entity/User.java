@@ -79,6 +79,10 @@ public class User {
         this.updatedAt = now;
     }
 
+    public void deleteUser() {
+        this.isDeleted = true;
+    }
+
 
     // getter
     public Long getUserId() {
@@ -106,7 +110,5 @@ public class User {
     }
 
     public boolean isDeleted() { return isDeleted; }
-
-    public void setDeleted(boolean deleted) { isDeleted = deleted; }
 
 }

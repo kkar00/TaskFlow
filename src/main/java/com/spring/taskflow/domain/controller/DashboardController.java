@@ -2,6 +2,7 @@ package com.spring.taskflow.domain.controller;
 
 import com.spring.taskflow.common.ApiResponse;
 import com.spring.taskflow.domain.dto.dashboard.DashboardDto;
+import com.spring.taskflow.domain.dto.dashboard.DashboardResponseDto;
 import com.spring.taskflow.domain.dto.dashboard.DashboardUserDto;
 import com.spring.taskflow.domain.service.DashboardService;
 import com.spring.taskflow.domain.service.JwtService;
@@ -35,9 +36,9 @@ public class DashboardController {
      * 대시보드 조회 API
      */
     @GetMapping("/dashboards")
-    public ResponseEntity<ApiResponse<List<DashboardDto>>> getDashboardListAPI(){
-        ApiResponse<List<DashboardDto>> responseDashboardListDto = dashboardService.getDashboardListService();
-        ResponseEntity<ApiResponse<List<DashboardDto>>> response = new ResponseEntity<>(responseDashboardListDto, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<DashboardResponseDto>> getDashboardListAPI(){
+        ApiResponse<DashboardResponseDto> apiResponse = dashboardService.getDashboardService();
+        ResponseEntity<ApiResponse<DashboardResponseDto>> response = new ResponseEntity<>(apiResponse, HttpStatus.OK);
         return response;
     }
 
@@ -45,10 +46,9 @@ public class DashboardController {
      * 유저 대시보드 조회 API
      */
     @GetMapping("/dashboards/{id}")
-    public ResponseEntity<ApiResponse<List<DashboardUserDto>>> getDashboardUserAPI(
+    public ResponseEntity<ApiResponse<DashboardResponseDto>> getDashboardUserAPI(
             HttpServletRequest request
     ){
-
         // 1. 헤더에서 토큰 추출
         String authHeader = request.getHeader("Authorization");
         String token = authHeader.substring(7); // bearer 제거
@@ -56,14 +56,10 @@ public class DashboardController {
         // 2. 토큰 검증
         Long userId = jwtService.verifyToken(token);
 
-        try {
-            ApiResponse<List<DashboardUserDto>> responseDashboardUserDto = dashboardService.getDashboardUserService(userId);
-            ResponseEntity<ApiResponse<List<DashboardUserDto>>> response = new ResponseEntity<>(responseDashboardUserDto, HttpStatus.OK);
-            return response;
-        } catch (IllegalAccessException e) {
-            return new ResponseEntity<>(
-                    new ApiResponse<>(false,"조회 권한이 없습니다.", null),
-                    HttpStatus.FORBIDDEN);
-        }
+        ApiResponse<DashboardResponseDto> apiResponse = dashboardService.getUserDashboardService(userId);
+        ResponseEntity<ApiResponse<DashboardResponseDto>> response = new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        return response;
     }
+
+
 }

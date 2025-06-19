@@ -54,6 +54,8 @@ public class Dashboard {
     }
 
     // 기능
+
+    // 게터
     public Long getUserId() {
         return userId;
     }
