@@ -58,7 +58,31 @@ public class ActivityLog {
         return requestedAt;
     }
 
-    // 세터 임시 추가
+    // 게터, 세터
+    public Long getActivityLogId() {
+        return activityLogId;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public String getRequestUrl() {
+        return requestUrl;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
     public void setActivityLogId(Long activityLogId) {
         this.activityLogId = activityLogId;
     }

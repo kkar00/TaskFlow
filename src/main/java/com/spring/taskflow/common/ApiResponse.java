@@ -16,6 +16,13 @@ public class ApiResponse<T> {
         this.data = data;
         this.timestamp = timestamp;
     }
+    public ApiResponse(boolean success, String message, T data) {
+        this.success = success;
+        this.message = message;
+        this.data = data;
+        this.timestamp = LocalDateTime.now();
+    }
+
 
     // 기능(게터)
     public boolean isSuccess() {
