@@ -24,10 +24,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("SELECT COUNT(e) FROM Task e")
     long countAll();
     long countByStatus(@Param("status") Status status);
-    long countByDueDateBefore(LocalDateTime dateTime);
+    long countByDueDateBeforeAndStatusNot(LocalDateTime dateTime, Status status);
 
     // 대쉬보드에서 각 유저별 조회시 사용
     long countByAssigneeId(User user);
     long countByAssigneeIdAndStatus(User user, Status status);
-    long countByAssigneeIdAndDueDateBefore(User user, LocalDateTime dateTime);
+    long countByAssigneeIdAndDueDateBeforeAndStatusNot(User user, LocalDateTime dateTime, Status status);
 }

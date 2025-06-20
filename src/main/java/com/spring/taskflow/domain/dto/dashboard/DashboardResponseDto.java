@@ -6,7 +6,7 @@ public class DashboardResponseDto {
     private long inProgressTasks;
     private long todoTasks;
     private long overDueTasks;
-    private double doneTasksRatio;
+    private String doneTasksRatio;
 
     public DashboardResponseDto(long totalTask, long doneTasks, long inProgressTasks, long todoTasks, long overDueTasks) {
         this.totalTask = totalTask;
@@ -14,7 +14,7 @@ public class DashboardResponseDto {
         this.inProgressTasks = inProgressTasks;
         this.todoTasks = todoTasks;
         this.overDueTasks = overDueTasks;
-        this.doneTasksRatio = (doneTasks / totalTask);
+        this.doneTasksRatio = String.format("%.2f%%",((double)doneTasks / totalTask) * 100);
     }
 
     public long getTotalTask() {
@@ -37,7 +37,7 @@ public class DashboardResponseDto {
         return overDueTasks;
     }
 
-    public double getDoneTasksRatio() {
+    public String getDoneTasksRatio() {
         return doneTasksRatio;
     }
 }

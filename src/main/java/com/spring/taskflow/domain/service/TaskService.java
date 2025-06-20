@@ -40,7 +40,7 @@ public class TaskService {
      * Task 작성 기능
      */
     @Transactional
-    public ApiResponse<TaskCreateResponseDto> createTaskService(Long userId, TaskCreateRequestDto requestDto) {
+    public ApiResponse<TaskCreateResponseDto> createTaskService(Long userId, TaskCreateRequestDto requestDto, String ipAddress) {
         // 토큰으로 접속한 유저 확인
         User loginUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("회원 정보가 일치하지 않습니다."));
 
@@ -56,15 +56,16 @@ public class TaskService {
         taskRepository.save(foundTask);
 
         // 예: 활동 로그 저장
-        ActivityLog log = new ActivityLog();
-        log.setActivityType("CREATE");
-        log.setTaskId(foundTask.getTaskId());
-        log.setUserId(userId);
-        log.setRequestedAt(LocalDateTime.now());
-        log.setIpAddress("127.0.0.1");
-        //IP는 예시
-        log.setRequestMethod("POST");
-        log.setRequestUrl("/api/tasks");
+        ActivityLog log = ActivityLog.create(
+                "CREATE",
+                foundTask.getTaskId(),
+                null,               // 댓글은 null
+                userId,
+                LocalDateTime.now(),
+                ipAddress,
+                "POST",
+                "/api/tasks"
+        );
         activityLogRepository.save(log);
 
         // ResponseDto 생성 및 반환

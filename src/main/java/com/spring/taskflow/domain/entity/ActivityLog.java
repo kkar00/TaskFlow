@@ -46,7 +46,22 @@ public class ActivityLog {
      */
     public ActivityLog() {}
 
-    // 기능(게터)
+    // 기능
+    public static ActivityLog create(String activityType, Long taskId, Long commentId, Long userId,
+                                     LocalDateTime requestedAt, String ipAddress, String requestMethod, String requestUrl) {
+        ActivityLog log = new ActivityLog();
+        log.activityType = activityType;
+        log.taskId = taskId;
+        log.commentId = commentId;
+        log.userId = userId;
+        log.requestedAt = requestedAt;
+        log.ipAddress = ipAddress;
+        log.requestMethod = requestMethod;
+        log.requestUrl = requestUrl;
+        return log;
+    }
+
+    // 게터
     public Long getTaskId() {
         return taskId;
     }
@@ -59,7 +74,6 @@ public class ActivityLog {
         return requestedAt;
     }
 
-    // 게터, 세터
     public Long getActivityLogId() {
         return activityLogId;
     }
@@ -82,41 +96,5 @@ public class ActivityLog {
 
     public Long getCommentId() {
         return commentId;
-    }
-
-    public void setActivityLogId(Long activityLogId) {
-        this.activityLogId = activityLogId;
-    }
-
-    public void setRequestedAt(LocalDateTime requestedAt) {
-        this.requestedAt = requestedAt;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public void setRequestMethod(String requestMethod) {
-        this.requestMethod = requestMethod;
-    }
-
-    public void setRequestUrl(String requestUrl) {
-        this.requestUrl = requestUrl;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
-
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
-    }
-
-    public void setActivityType(String activityType) {
-        this.activityType = activityType;
     }
 }

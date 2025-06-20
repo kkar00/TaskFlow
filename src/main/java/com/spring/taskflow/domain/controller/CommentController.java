@@ -41,7 +41,8 @@ public class CommentController {
 
             String token = authHeader.substring(7); // "Bearer " 제거
             Long userId = jwtService.verifyToken(token);
-            CommentCreateResponseDto responseDto = commentService.createCommentService(requestDto, userId);
+            String ipAddress = request.getRemoteAddr();
+            CommentCreateResponseDto responseDto = commentService.createCommentService(requestDto, userId, ipAddress);
             ApiResponse<CommentCreateResponseDto> apiResponse = new ApiResponse<>(
                 true, "댓글 생성이 완료되었습니다.", responseDto);
             return ResponseEntity.ok(apiResponse);}

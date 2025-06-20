@@ -42,7 +42,9 @@ public class TaskController {
         // 2. 토큰 검증
         Long userId = jwtService.verifyToken(token);
 
-        ApiResponse<TaskCreateResponseDto> responseDto = taskService.createTaskService(userId, requestDto);
+        String ipAddress = request.getRemoteAddr();
+
+        ApiResponse<TaskCreateResponseDto> responseDto = taskService.createTaskService(userId, requestDto, ipAddress);
         ResponseEntity<ApiResponse<TaskCreateResponseDto>> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return response;
     }
