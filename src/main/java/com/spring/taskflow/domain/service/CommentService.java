@@ -38,7 +38,7 @@ public class CommentService {
      * 댓글 생성 기능
      */
     @Transactional
-    public CommentCreateResponseDto createCommentService(CommentCreateRequestDto requestDto,Long userId) {
+    public CommentCreateResponseDto createCommentService(CommentCreateRequestDto requestDto,Long userId, String ipAddress) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
         Task task = taskRepository.findById(requestDto.getTaskId())
@@ -51,15 +51,16 @@ public class CommentService {
         Comment saveComment = commentRepository.save(foundComment);
 
         // 예: 활동 로그 저장
-        ActivityLog log = new ActivityLog();
-        log.setActivityType("CREATE");
-        log.setCommentId(saveComment.getCommentId());
-        log.setUserId(userId);
-        log.setRequestedAt(LocalDateTime.now());
-        log.setIpAddress("127.0.0.1");
-        //IP는 예시
-        log.setRequestMethod("POST");
-        log.setRequestUrl("/api/comments");
+        ActivityLog log = ActivityLog.create(
+                "CREATE",
+                null,// task는 null
+                foundComment.getCommentId(),
+                userId,
+                LocalDateTime.now(),
+                ipAddress,
+                "POST",
+                "/api/comments"
+        );
         activityLogRepository.save(log);
 
         CommentCreateResponseDto responseDto = new CommentCreateResponseDto(saveComment);
